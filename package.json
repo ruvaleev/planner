@@ -1,0 +1,27 @@
+{
+  "name": "planner",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@tailwindcss/postcss7-compat": "^2.0.2",
+    "autoprefixer": "^9.8.6",
+    "postcss": "^7.0.35",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.1",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2"
+  },
+  "scripts": {
+    "build:css": "NODE_ENV=production tailwind build src/assets/tailwind.css -o src/assets/main.css",
+    "watch:css": "chokidar 'src/assets/tailwind.css' -c 'npm run build:css'",
+    "start:dev": "concurrently -n Tailwind,React 'npm run watch:css' 'webpack-dev-server --config ./initializers/webpack/development.js'"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
+    "chokidar-cli": "^2.1.0",
+    "concurrently": "^5.3.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
