@@ -4,7 +4,7 @@ import Area from '../AreaCard';
 
 function AreasList({ areas }) {
   return (
-    areas.map((area, i) => (
+    areas.map((area) => (
       <Area key={area.id} area={area} />
     ))
   );

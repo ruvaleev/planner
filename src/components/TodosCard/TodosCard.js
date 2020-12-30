@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import TodosList from './TodosList';
 import TodoForm from './TodoForm';
@@ -20,5 +21,22 @@ function TodosCard({
     </>
   );
 }
+
+TodosCard.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  isError: PropTypes.bool.isRequired,
+  areaId: PropTypes.string.isRequired,
+  todos: PropTypes.arrayOf(
+    PropTypes.oneOfType(
+      [PropTypes.string, PropTypes.object],
+    ),
+  ).isRequired,
+  createTodo: PropTypes.func.isRequired,
+  error: PropTypes.string,
+};
+
+TodosCard.defaultProps = {
+  error: '',
+};
 
 export default TodosCard;

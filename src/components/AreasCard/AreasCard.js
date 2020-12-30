@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import AreasList from './AreasList';
 import Menu from '../Menu';
@@ -15,5 +16,16 @@ function AreasCard({
     </>
   );
 }
+
+AreasCard.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  isError: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+  areas: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+AreasCard.defaultProps = {
+  error: '',
+};
 
 export default AreasCard;

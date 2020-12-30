@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import TodosCard from '../TodosCard';
 
@@ -8,5 +9,13 @@ const Area = ({ area }) => (
     <TodosCard areaId={area.id} />
   </div>
 );
+
+Area.propTypes = {
+  area: PropTypes.objectOf(
+    PropTypes.oneOfType(
+      [PropTypes.string, PropTypes.object],
+    ),
+  ).isRequired,
+};
 
 export default Area;

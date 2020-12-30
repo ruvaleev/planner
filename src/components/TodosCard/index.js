@@ -4,7 +4,7 @@ import TodosCard from './TodosCard';
 import { createTodo } from '../../redux/slices/todos';
 
 function selectTodos(todos, areaId) {
-  return todos.filter((todo) => todo.fields.area_id == areaId);
+  return todos.filter((todo) => todo.fields.area_id[0] === areaId);
 }
 
 const mapStateToProps = (state, ownProps) => ({

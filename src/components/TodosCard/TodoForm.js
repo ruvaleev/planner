@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function TodoForm({ onSubmit, title }) {
   return (
@@ -9,9 +10,14 @@ function TodoForm({ onSubmit, title }) {
     }}
     >
       <input type="text" name="todoTitle" className="mr-4" data-testid="Add todo" />
-      <button>{title}</button>
+      <button type="submit">{title}</button>
     </form>
   );
 }
+
+TodoForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+};
 
 export default TodoForm;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Todo = ({ todo, toggleReady }) => (
   <div key={todo.id} className="flex justify-between">
@@ -11,5 +12,14 @@ const Todo = ({ todo, toggleReady }) => (
     />
   </div>
 );
+
+Todo.propTypes = {
+  todo: PropTypes.objectOf(
+    PropTypes.oneOfType(
+      [PropTypes.string, PropTypes.object],
+    ),
+  ).isRequired,
+  toggleReady: PropTypes.func.isRequired,
+};
 
 export default Todo;

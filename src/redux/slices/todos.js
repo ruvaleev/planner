@@ -41,7 +41,7 @@ const todosSlice = createSlice({
   initialState,
   reducers: {
     toggleReady(state, action) {
-      const todo = state.todos.find((todo) => todo.id === action.payload);
+      const todo = state.todos.find((stateTodo) => stateTodo.id === action.payload);
       todo.fields.completed = !todo.fields.completed;
 
       axiosInstance.patch('/todos', {
@@ -57,7 +57,7 @@ const todosSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchTodos.pending]: (state, action) => ({
+    [fetchTodos.pending]: (state) => ({
       ...state,
       isLoading: true,
     }),
@@ -71,7 +71,7 @@ const todosSlice = createSlice({
       isError: true,
       error: action.payload.error,
     }),
-    [createTodo.pending]: (state, action) => ({
+    [createTodo.pending]: (state) => ({
       ...state,
       isLoading: true,
     }),

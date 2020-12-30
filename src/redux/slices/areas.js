@@ -22,7 +22,7 @@ const areasSlice = createSlice({
   reducers: {
   },
   extraReducers: {
-    [fetchAreas.pending]: (state, action) => ({
+    [fetchAreas.pending]: (state) => ({
       ...state,
       isLoading: true,
     }),
