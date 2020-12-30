@@ -9,6 +9,6 @@ export default combineReducers(
   {
     todosReducer: undoable(todosReducer),
     areasReducer,
-    tableOfContentsReducer
-  }
+    tableOfContentsReducer,
+  },
 );

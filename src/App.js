@@ -1,8 +1,8 @@
 import React from 'react';
 import './assets/main.css';
+import { Provider } from 'react-redux';
 import AreasCard from './components/AreasCard';
 
-import { Provider } from 'react-redux';
 import createStore from './redux/store';
 import { fetchAreas } from './redux/slices/areas';
 import { fetchTodos } from './redux/slices/todos';
@@ -15,26 +15,25 @@ const onLoad = (store) => {
   const promises = [];
   promises.push(
     store.dispatch(fetchAreas()),
-    store.dispatch(fetchTodos())
+    store.dispatch(fetchTodos()),
   );
 
   return Promise.all(promises);
-}
+};
 
 class App extends React.Component {
   componentDidMount() {
-    if (process.env.NODE_ENV !== 'production')
-      onLoad(store);
+    if (process.env.NODE_ENV !== 'production') onLoad(store);
   }
-  
+
   render() {
     return (
       <Provider store={store}>
         <div className="flex flex col h-screen items-start justify-center bg-gray-200 text-gray-500 pt-30vh">
-          <AreasCard/>
+          <AreasCard />
         </div>
       </Provider>
-    )
+    );
   }
 }
 

@@ -9,11 +9,11 @@ const tableOfContentsSlice = createSlice({
     toggleEditable(state, action) {
       return {
         ...state,
-        editable: !state.editable
+        editable: !state.editable,
       };
-    }
-  }
-})
+    },
+  },
+});
 
 export const { toggleEditable } = tableOfContentsSlice.actions;
 export default tableOfContentsSlice.reducer;
