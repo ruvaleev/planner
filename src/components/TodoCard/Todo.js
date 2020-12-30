@@ -1,8 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Todo = ({ todo, toggleReady }) => (
-  <div key={todo.id} className="flex justify-between">
+import close from './close.png';
+
+const CloseIcon = ({ callback }) => (
+  <button type="button" onClick={callback} onKeyDown={callback}>
+    <img src={close} alt="close" className="w-4 h-4 cursor-pointer" />
+  </button>
+);
+
+const Todo = ({ todo, toggleReady, removeTodo }) => (
+  <div key={todo.id} className="flex justify-between items-center">
+    <CloseIcon callback={() => removeTodo(todo.id)} />
     <label htmlFor={todo.id} className="mx-4">{todo.fields.title}</label>
     <input
       id={todo.id}
@@ -13,6 +22,10 @@ const Todo = ({ todo, toggleReady }) => (
   </div>
 );
 
+CloseIcon.propTypes = {
+  callback: PropTypes.func.isRequired,
+};
+
 Todo.propTypes = {
   todo: PropTypes.objectOf(
     PropTypes.oneOfType(
@@ -20,6 +33,7 @@ Todo.propTypes = {
     ),
   ).isRequired,
   toggleReady: PropTypes.func.isRequired,
+  removeTodo: PropTypes.func.isRequired,
 };
 
 export default Todo;

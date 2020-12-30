@@ -36,6 +36,15 @@ export const createTodo = createAsyncThunk(
   },
 );
 
+export const removeTodo = createAsyncThunk(
+  'todos/remove',
+  async (todoId) => {
+    const response = await axiosInstance.delete(`/todos?records[]=${todoId}`);
+
+    return response.data.records[0];
+  },
+);
+
 const todosSlice = createSlice({
   name: 'areas',
   initialState,
@@ -85,8 +94,24 @@ const todosSlice = createSlice({
       isError: true,
       error: action.payload.error,
     }),
+    [removeTodo.pending]: (state) => ({
+      ...state,
+      isLoading: true,
+    }),
+    [removeTodo.fulfilled]: (state, action) => ({
+      ...initialState,
+      todos: state.todos.filter(
+        (todo) => (todo.id !== action.payload.id) && (action.payload.deleted === true),
+      ),
+    }),
+    [removeTodo.rejected]: (state, action) => ({
+      ...state,
+      isLoading: false,
+      isError: true,
+      error: action.payload.error,
+    }),
   },
 });
 
-export const { addTodo, toggleReady } = todosSlice.actions;
+export const { toggleReady } = todosSlice.actions;
 export default todosSlice.reducer;
