@@ -3,14 +3,11 @@ import PropTypes from 'prop-types';
 
 import TodosList from './TodosList';
 import TodoForm from './TodoForm';
-import LoadingScreen from '../shared/LoadingScreen';
+import withLoading from '../HOC/withLoading';
 
-function TodosCard({
-  isLoading, isError, error, areaId, todos, createTodo,
-}) {
+function TodosCard({ areaId, todos, createTodo }) {
   return (
     <>
-      <LoadingScreen isLoading={isLoading} isError={isError} error={error} />
       <TodosList todos={todos} />
       <TodoForm
         onSubmit={
@@ -23,8 +20,6 @@ function TodosCard({
 }
 
 TodosCard.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  isError: PropTypes.bool.isRequired,
   areaId: PropTypes.string.isRequired,
   todos: PropTypes.arrayOf(
     PropTypes.oneOfType(
@@ -32,11 +27,6 @@ TodosCard.propTypes = {
     ),
   ).isRequired,
   createTodo: PropTypes.func.isRequired,
-  error: PropTypes.string,
 };
 
-TodosCard.defaultProps = {
-  error: '',
-};
-
-export default TodosCard;
+export default withLoading(TodosCard);

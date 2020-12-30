@@ -30,9 +30,7 @@ class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <div className="flex flex col h-screen items-start justify-center bg-gray-200 text-gray-500 pt-30vh">
-          <AreasCard />
-        </div>
+        <AreasCard />
       </Provider>
     );
   }

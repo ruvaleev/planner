@@ -3,29 +3,19 @@ import PropTypes from 'prop-types';
 
 import AreasList from './AreasList';
 import Menu from '../Menu';
-import LoadingScreen from '../shared/LoadingScreen';
+import withLoading from '../HOC/withLoading';
 
-function AreasCard({
-  isLoading, isError, error, areas,
-}) {
+function AreasCard({ areas }) {
   return (
-    <>
-      <LoadingScreen isLoading={isLoading} isError={isError} error={error} />
+    <div className="flex flex col h-screen items-start justify-center bg-gray-200 text-gray-500 pt-30vh">
       <Menu />
       <AreasList areas={areas} />
-    </>
+    </div>
   );
 }
 
 AreasCard.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  isError: PropTypes.bool.isRequired,
-  error: PropTypes.string,
   areas: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-AreasCard.defaultProps = {
-  error: '',
-};
-
-export default AreasCard;
+export default withLoading(AreasCard);
