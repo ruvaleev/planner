@@ -30,14 +30,14 @@ class Area extends React.Component {
     // assuming that width of side menu is 25%
     const areaScreenWidth = window.screen.width * 0.75;
 
-    links.forEach((link) => {
-      link.addEventListener('click', (e) => {
-        makeAreaChoosen(renderedArea, areasCard, areaScreenWidth, chooseArea, e);
-      });
-    });
-    renderedArea.addEventListener('click', (e) => {
+    function listener(e) {
       makeAreaChoosen(renderedArea, areasCard, areaScreenWidth, chooseArea, e);
+    }
+    links.forEach((link) => {
+      link.addEventListener('click', (e) => { listener(e); });
     });
+    renderedArea.addEventListener('click', (e) => { listener(e); });
+    renderedArea.addEventListener('keyup', (e) => { listener(e); });
   }
 
   render() {
@@ -51,6 +51,8 @@ class Area extends React.Component {
   }
 }
 
+export default Area;
+
 Area.propTypes = {
   area: PropTypes.objectOf(
     PropTypes.oneOfType(
@@ -60,5 +62,3 @@ Area.propTypes = {
   choosenAreaId: PropTypes.string.isRequired,
   chooseArea: PropTypes.func.isRequired,
 };
-
-export default Area;
