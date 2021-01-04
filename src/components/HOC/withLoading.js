@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import loading from './loading.gif';
+import loading from './loading.svg';
 
 function LoadingScreen({ isLoading, isError, error }) {
   return (
     <div className="absolute inset-0 z-10 flex justify-center items-center">
-      {isLoading && <img src={loading} alt="loading..." className="w-8" />}
+      {isLoading && <img src={loading} alt="loading..." className="w-8 rotating" />}
       {isError && <div>{error}</div>}
     </div>
   );

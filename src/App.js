@@ -2,6 +2,7 @@ import React from 'react';
 import './assets/main.css';
 import { Provider } from 'react-redux';
 import AreasCard from './components/AreasCard';
+import Menu from './components/Menu';
 
 import createStore from './redux/store';
 import { fetchAreas } from './redux/slices/areas';
@@ -30,6 +31,7 @@ class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
+        <Menu />
         <AreasCard />
       </Provider>
     );

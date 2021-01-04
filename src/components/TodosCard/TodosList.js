@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Todo from '../TodoCard';
+import Todo from '../Todo';
 
 function TodosList({ todos }) {
   return (

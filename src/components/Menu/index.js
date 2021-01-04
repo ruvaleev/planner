@@ -1,17 +1,10 @@
 import { connect } from 'react-redux';
-import { ActionCreators } from 'redux-undo';
 
-import { toggleEditable } from '../../redux/slices/tableOfContents';
 import Menu from './Menu';
 
 const mapStateToProps = (state) => ({
-  editable: state.tableOfContentsReducer.editable,
+  areas: state.areasReducer.areas,
+  choosenAreaId: state.areasReducer.choosenAreaId,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  toggleEditable: (editable) => dispatch(toggleEditable(editable)),
-  undo: () => dispatch(ActionCreators.undo()),
-  redo: () => dispatch(ActionCreators.redo()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Menu);
+export default connect(mapStateToProps)(Menu);

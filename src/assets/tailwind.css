@@ -8,3 +8,76 @@
   display: block;
   pointer-events: none;
 }
+
+.rotating {
+  animation-name: rotating;
+  animation-duration: 2.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.menu-container {
+  width: 25%;
+  height: 100%;
+}
+
+.menu {
+  border-right: 1.5px solid black;
+  justify-content: center;
+  height: 80%;
+}
+
+.title {
+  color: #D83E1D;
+}
+
+.areas-card {
+  margin-left: 25%;
+}
+
+.bordered {
+  border: 1px solid black;
+}
+
+
+.todo {
+  padding-left: 3rem;
+}
+
+.area {
+  filter: blur(0.3em) grayscale(1);
+  pointer-events: none;
+}
+
+.choosen-area {
+  filter: none;
+  pointer-events: auto;
+}
+
+input[type='checkbox'] {
+  display: none;
+}
+
+input[type='checkbox'] + label:before {
+  background-image: url('./icons/square.svg');
+  width: 2rem;
+  height: 2rem;
+  margin-left: -3rem;
+  content: '';
+  position: absolute;
+  background-size: cover;
+}
+
+input[type='checkbox']:checked + label:before {
+  background-image: url('./icons/square-check.svg');
+}
+
+input[type='checkbox']:checked + label {
+  text-decoration: line-through;
+}
+
+@keyframes rotating {
+  100% {
+    transform: rotate(360deg)
+  }
+}

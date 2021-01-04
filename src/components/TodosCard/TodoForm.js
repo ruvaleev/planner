@@ -1,23 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function TodoForm({ onSubmit, title }) {
+import submit from './submit.svg';
+
+function TodoForm({ onSubmit }) {
   return (
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      onSubmit(e.target.elements.todoTitle.value);
-      e.target.elements.todoTitle.value = '';
-    }}
+    <form
+      className="flex items-center mt-4"
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit(e.target.elements.todoTitle.value);
+        e.target.elements.todoTitle.value = '';
+      }}
     >
-      <input type="text" name="todoTitle" className="mr-4" data-testid="Add todo" />
-      <button type="submit">{title}</button>
+      <input type="text" name="todoTitle" placeholder="Создать" className="h-6 pl-8 w-full italic bordered" data-testid="Add todo" />
+      <button type="submit" className="h-6 w-6 -ml-6">
+        <img src={submit} alt="submit" className="cursor-pointer" />
+      </button>
     </form>
   );
 }
 
 TodoForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
 };
 
 export default TodoForm;

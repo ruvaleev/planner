@@ -1,11 +1,13 @@
-import { connect } from 'react-redux';
-import AreasCard from './AreasCard';
+import React from 'react';
 
-const mapStateToProps = (state) => ({
-  isLoading: state.areasReducer.isLoading,
-  isError: state.areasReducer.isError,
-  error: state.areasReducer.error,
-  areas: state.areasReducer.areas,
-});
+import AreasList from '../AreasList';
 
-export default connect(mapStateToProps)(AreasCard);
+function AreasCard() {
+  return (
+    <div className="areas-card relative">
+      <AreasList />
+    </div>
+  );
+}
+
+export default AreasCard;

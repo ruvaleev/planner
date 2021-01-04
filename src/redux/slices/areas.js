@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../shared/axiosInstance';
 
 const initialState = {
-  areas: [], isLoading: false, isError: false, error: null,
+  areas: [], choosenAreaId: null, isLoading: false, isError: false, error: null,
 };
 
 export const fetchAreas = createAsyncThunk(
@@ -16,10 +16,21 @@ export const fetchAreas = createAsyncThunk(
   },
 );
 
+/* eslint-disable no-param-reassign */
 const areasSlice = createSlice({
   name: 'areas',
   initialState,
   reducers: {
+    chooseArea(state, action) {
+      const areaIndex = state.areas.findIndex((area) => area.id === action.payload);
+      if (areaIndex === 0) {
+        state.areas.unshift(state.areas.splice(-1)[0]);
+      } else if (areaIndex === (state.areas.length - 1)) {
+        state.areas.splice(state.areas.length, 0, state.areas.shift());
+      }
+
+      state.choosenAreaId = action.payload;
+    },
   },
   extraReducers: {
     [fetchAreas.pending]: (state) => ({
@@ -29,6 +40,7 @@ const areasSlice = createSlice({
     [fetchAreas.fulfilled]: (state, action) => ({
       ...initialState,
       areas: action.payload,
+      choosenAreaId: action.payload[0].id,
     }),
     [fetchAreas.rejected]: (state, action) => ({
       ...state,
@@ -39,4 +51,5 @@ const areasSlice = createSlice({
   },
 });
 
+export const { chooseArea } = areasSlice.actions;
 export default areasSlice.reducer;

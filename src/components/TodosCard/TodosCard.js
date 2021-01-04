@@ -11,9 +11,8 @@ function TodosCard({ areaId, todos, createTodo }) {
       <TodosList todos={todos} />
       <TodoForm
         onSubmit={
-        (data) => { createTodo({ title: data, areaId }); }
-      }
-        title="Добавить задачу"
+          (data) => { createTodo({ title: data, areaId }); }
+        }
       />
     </>
   );

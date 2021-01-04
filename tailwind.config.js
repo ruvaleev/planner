@@ -11,6 +11,16 @@ module.exports = {
         '30vh': '30vh',
       },
     },
+    fontFamily: {
+      helvetica: 'Helvetica',
+    },
+    fontSize: {
+      '2xl': '1.5rem',
+      big: '2.065rem',
+    },
+    minWidth: {
+      '20em': '20em',
+    },
   },
   variants: {
     extend: {},

@@ -1,23 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Menu({
-  editable, toggleEditable, undo, redo,
-}) {
+function AreaLink({ id, title, choosen }) {
   return (
-    <div className="fixed -m-16 text-xl">
-      <button type="button" className="px-4" onClick={() => undo()}>Undo</button>
-      <button type="button" className="px-4" onClick={() => toggleEditable(editable)}>Edit</button>
-      <button type="button" className="px-4" onClick={() => redo()}>Redo</button>
+    <button type="button" className={`px-8 ${choosen ? 'font-normal' : 'font-light'}`} data-link-id={id}>{title}</button>
+  );
+}
+
+function Menu({ areas, choosenAreaId }) {
+  return (
+    <div
+      id="menu-container"
+      className="fixed flex items-center text-2xl font-helvetica title text-right menu-container"
+    >
+      <div className="flex items-end flex-col menu">
+        {areas.map((area) => (
+          <AreaLink
+            key={area.id}
+            id={area.id}
+            title={area.fields.title}
+            choosen={area.id === choosenAreaId}
+          />
+        ))}
+      </div>
     </div>
   );
 }
 
+export default Menu;
+
 Menu.propTypes = {
-  editable: PropTypes.bool.isRequired,
-  toggleEditable: PropTypes.func.isRequired,
-  undo: PropTypes.func.isRequired,
-  redo: PropTypes.func.isRequired,
+  areas: PropTypes.arrayOf(
+    PropTypes.PropTypes.object,
+  ).isRequired,
+  choosenAreaId: PropTypes.string,
 };
 
-export default Menu;
+Menu.defaultProps = {
+  choosenAreaId: null,
+};
+
+AreaLink.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  choosen: PropTypes.bool.isRequired,
+};
