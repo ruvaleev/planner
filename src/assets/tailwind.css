@@ -25,6 +25,7 @@
   border-right: 1.5px solid black;
   justify-content: center;
   height: 80%;
+  width: 100%;
 }
 
 .title {
@@ -46,12 +47,10 @@
 
 .area {
   filter: blur(0.3em) grayscale(1);
-  pointer-events: none;
 }
 
 .choosen-area {
   filter: none;
-  pointer-events: auto;
 }
 
 input[type='checkbox'] {
