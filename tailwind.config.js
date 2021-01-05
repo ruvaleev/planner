@@ -16,6 +16,7 @@ module.exports = {
     },
     fontSize: {
       '2xl': '1.5rem',
+      base: '1rem',
       big: '2.065rem',
     },
     minWidth: {

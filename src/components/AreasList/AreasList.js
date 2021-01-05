@@ -6,7 +6,7 @@ import withLoading from '../HOC/withLoading';
 
 function AreasList({ areas }) {
   return (
-    <div id="areas-card" className="flex h-screen items-center justify-start overflow-x-scroll font-helvetica">
+    <div id="areas-list" className="flex items-start justify-start overflow-x-scroll font-helvetica">
       {areas.map((area) => (
         <Area key={area.id} area={area} />
       ))}

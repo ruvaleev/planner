@@ -8,7 +8,6 @@ const mapStateToProps = (state) => ({
   isError: state.areasReducer.isError,
   error: state.areasReducer.error,
   areas: state.areasReducer.areas,
-  choosenAreaId: state.areasReducer.choosenAreaId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
