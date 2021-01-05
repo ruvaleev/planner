@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import close from './close.svg';
+import RemoveIcon from '../shared/RemoveIcon';
 
 const TodoCheckbox = ({ id, completed, toggleReady }) => (
   <>
@@ -29,17 +29,11 @@ const TodoLabel = ({ id, title, toggleReady }) => (
   </>
 );
 
-const CloseIcon = ({ callback }) => (
-  <button type="button" onClick={callback} className="ml-auto">
-    <img src={close} alt="close" className="w-4 h-4 cursor-pointer" />
-  </button>
-);
-
 const Todo = ({ todo, toggleReady, removeTodo }) => (
   <div key={todo.id} className="flex justify-start items-center">
     <TodoCheckbox id={todo.id} completed={!!todo.fields.completed} toggleReady={toggleReady} />
     <TodoLabel id={todo.id} title={todo.fields.title} toggleReady={toggleReady} />
-    <CloseIcon callback={() => removeTodo(todo.id)} />
+    <RemoveIcon callback={() => removeTodo(todo.id)} />
   </div>
 );
 
@@ -55,10 +49,6 @@ TodoLabel.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   toggleReady: PropTypes.func.isRequired,
-};
-
-CloseIcon.propTypes = {
-  callback: PropTypes.func.isRequired,
 };
 
 Todo.propTypes = {
