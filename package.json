@@ -8,23 +8,31 @@
     "@tailwindcss/postcss7-compat": "^2.0.2",
     "autoprefixer": "^9.8.6",
     "axios": "^0.21.1",
+    "express": "^4.17.1",
     "html-webpack-plugin": "^4.5.0",
     "mini-css-extract-plugin": "^1.3.3",
     "postcss": "^7.0.35",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-helmet": "^6.1.0",
     "react-redux": "^7.2.2",
     "react-scripts": "4.0.1",
     "redux": "^4.0.5",
     "redux-undo": "^1.0.1",
     "regenerator-runtime": "^0.13.7",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2"
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
+    "webpack-bundle-analyzer": "^4.3.0",
+    "webpack-manifest-plugin": "^3.0.0",
+    "webpack-node-externals": "^2.5.2"
   },
   "scripts": {
-    "build:css": "NODE_ENV=production tailwind build src/assets/tailwind.css -o src/assets/main.css",
+    "build:css": "tailwind build src/assets/tailwind.css -o src/assets/main.css",
     "watch:css": "chokidar 'src/assets/tailwind.css' -c 'npm run build:css'",
-    "start:dev": "concurrently -n Tailwind,React 'npm run watch:css' 'webpack-dev-server --config ./initializers/webpack/development.js'"
+    "start:dev": "concurrently -n Tailwind,React 'npm run watch:css' 'webpack-dev-server --config ./initializers/webpack/development.js'",
+    "build:client": " rimraf ./dist/assets/* && webpack --config ./initializers/webpack/production.js",
+    "build:server": "NODE_ENV=production npm run build:css && webpack --config ./initializers/webpack/server.js",
+    "start:server": "NODE_ENV=production node --enable-source-maps ./dist/server/server"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.12.11",

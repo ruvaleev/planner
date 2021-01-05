@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import loading from './loading.svg';
+import loading from '../../assets/icons/loading.svg';
 
 function LoadingScreen({ isLoading, isError, error }) {
   return (
@@ -16,7 +16,7 @@ const withLoading = (EnhancedComponent) => {
   const renderWithLoading = ({ isLoading, isError, ...props }) => (
     <>
       {(isLoading || isError) && <LoadingScreen isLoading={isLoading} isError={isError} />}
-      <div className={`block ${(isLoading || isError) && 'blurred'}`}>
+      <div className={`block w-full ${(isLoading || isError) && 'blurred'}`}>
         <EnhancedComponent {...props} />
       </div>
     </>
