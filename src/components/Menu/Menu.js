@@ -5,7 +5,7 @@ function AreaLink({ area, chooseArea }) {
   return (
     <button
       type="button"
-      className={`px-8 ${area.choosen ? 'font-normal' : 'font-light'}`}
+      className={`px-8 mt-3 leading-none text-right ${area.choosen ? 'font-normal' : 'font-light'}`}
       data-link-id={area.id}
       onClick={() => chooseArea(area.id)}
     >

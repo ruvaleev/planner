@@ -13,4 +13,5 @@ app.use(handleRender);
 
 // We are going to fill these out in the sections to follow
 
+/* eslint no-console: 0 */
 app.listen(port, () => console.log('App is listening on', port));
