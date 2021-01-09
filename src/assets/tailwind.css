@@ -82,6 +82,10 @@ input[type='checkbox']:checked + label {
   overflow-y: auto;
 }
 
+.modal {
+  background: #ffffffc7;
+}
+
 .rotating {
   animation-name: rotating;
   animation-duration: 2.5s;

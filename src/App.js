@@ -5,6 +5,7 @@ import {
   matchPath, Router, Route, Switch,
 } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
+import Cookies from 'universal-cookie';
 
 import routes from 'routes';
 import createStore from './redux/store';
@@ -14,13 +15,15 @@ const preloadedState = window.__PRELOADED_STATE__;
 delete window.__PRELOADED_STATE__;
 
 const store = createStore(preloadedState);
-const history = createBrowserHistory({ forceRefresh: true });
+const history = createBrowserHistory();
+const cookies = new Cookies();
 
 const onLoad = () => {
   const promises = [];
+
   routes.some((route) => {
     const match = matchPath(history.location.pathname, route);
-    if (match) promises.push(route.loadData({ match, store }));
+    if (match && route.loadData) promises.push(route.loadData({ match, store, cookies }));
     return match;
   });
 

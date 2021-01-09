@@ -1,15 +1,20 @@
-import React from 'react';
+import { connect } from 'react-redux';
 
-import AreasCard from '../AreasCard';
-import Menu from '../Menu';
+import { fetchCookie, logOut, verifyToken } from '../../redux/slices/authentications';
+import Home from './Home';
 
-function Home() {
-  return (
-    <>
-      <Menu />
-      <AreasCard />
-    </>
-  );
-}
+const mapStateToProps = (state) => ({
+  isLoading: state.authenticationsReducer.isLoading,
+  isError: state.authenticationsReducer.isError,
+  error: state.authenticationsReducer.error,
+  authToken: state.authenticationsReducer.authToken,
+  isAuthenticated: state.authenticationsReducer.isAuthenticated,
+});
 
-export default Home;
+const mapDispatchToProps = (dispatch) => ({
+  fetchCookie: (data) => dispatch(fetchCookie(data)),
+  logOut: (data) => dispatch(logOut(data)),
+  verifyToken: (data) => dispatch(verifyToken(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

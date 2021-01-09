@@ -5,17 +5,18 @@ import { renderToString } from 'react-dom/server';
 import {
   matchPath, StaticRouter, Route, Switch,
 } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 
 import routes from 'routes';
 import renderFullPage from './renderFullPage';
 import createStore from '../../src/redux/store';
 
-function loadData(store, path) {
+function loadData(store, path, cookies) {
   const promises = [];
 
   routes.some((route) => {
     const match = matchPath(path, route);
-    if (match) promises.push(route.loadData({ match, store }));
+    if (match) promises.push(route.loadData && route.loadData({ match, store, cookies }));
     return match;
   });
 
@@ -27,7 +28,8 @@ async function handleRender(req, res) {
   const context = {};
   const store = createStore();
 
-  await loadData(store, req.url);
+  const cookies = new Cookies(req.headers.cookie);
+  await loadData(store, req.url, cookies);
 
   const html = renderToString(
     <Provider store={store}>
