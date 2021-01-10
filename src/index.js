@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './App';
+import mocks from './mocks';
 
 if (process.env.NODE_ENV === 'production') {
   ReactDOM.hydrate(
@@ -14,3 +15,5 @@ if (process.env.NODE_ENV === 'production') {
     document.getElementById('root'),
   );
 }
+
+if (process.env.NODE_ENV === 'development') mocks();

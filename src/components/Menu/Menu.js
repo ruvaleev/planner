@@ -67,7 +67,11 @@ AreaForm.propTypes = {
 Menu.propTypes = {
   areas: PropTypes.arrayOf(
     PropTypes.PropTypes.object,
-  ).isRequired,
+  ),
   chooseArea: PropTypes.func.isRequired,
   createArea: PropTypes.func.isRequired,
+};
+
+Menu.defaultProps = {
+  areas: [],
 };

@@ -56,7 +56,8 @@ export const createArea = createAsyncThunk(
 export const removeArea = createAsyncThunk(
   'areas/remove',
   async (areaId) => {
-    const response = await axiosInstance.delete(`/areas?records[]=${areaId}`);
+    const params = { records: [areaId] };
+    const response = await axiosInstance.delete('/areas', { params });
 
     return response.data.records[0];
   },
@@ -115,11 +116,13 @@ const areasSlice = createSlice({
         state.areas = state.areas.filter(
           (area) => (area.id !== action.payload.id) && (action.payload.deleted === true),
         );
-        const newChoosenAreaIndex = index === state.areas.length ? (index - 1) : index;
-        const newChoosenArea = state.areas[newChoosenAreaIndex];
+        if (state.areas.length > 0) {
+          const newChoosenAreaIndex = index === state.areas.length ? (index - 1) : index;
+          const newChoosenArea = state.areas[newChoosenAreaIndex];
 
-        shiftBorderAreas(state, newChoosenAreaIndex);
-        newChoosenArea && switchChoosen(state, newChoosenArea.id);
+          shiftBorderAreas(state, newChoosenAreaIndex);
+          newChoosenArea && switchChoosen(state, newChoosenArea.id);
+        }
       }
     },
     [removeArea.rejected]: (state, action) => ({

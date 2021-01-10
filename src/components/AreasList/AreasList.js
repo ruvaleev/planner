@@ -19,5 +19,9 @@ export default withLoading(AreasList);
 AreasList.propTypes = {
   areas: PropTypes.arrayOf(
     PropTypes.PropTypes.object,
-  ).isRequired,
+  ),
+};
+
+AreasList.defaultProps = {
+  areas: [],
 };

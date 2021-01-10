@@ -34,13 +34,21 @@ function Home({ authToken, isAuthenticated, logOut }) {
 export default withLoading(Home);
 
 AuthenticationMenu.propTypes = {
-  authToken: PropTypes.string.isRequired,
+  authToken: PropTypes.string,
   isAuthenticated: PropTypes.bool.isRequired,
   logOut: PropTypes.func.isRequired,
 };
 
+AuthenticationMenu.defaultProps = {
+  authToken: null,
+};
+
 Home.propTypes = {
-  authToken: PropTypes.string.isRequired,
+  authToken: PropTypes.string,
   isAuthenticated: PropTypes.bool.isRequired,
   logOut: PropTypes.func.isRequired,
+};
+
+Home.defaultProps = {
+  authToken: null,
 };

@@ -39,7 +39,8 @@ export const createTodo = createAsyncThunk(
 export const removeTodo = createAsyncThunk(
   'todos/remove',
   async (todoId) => {
-    const response = await axiosInstance.delete(`/todos?records[]=${todoId}`);
+    const params = { records: [todoId] };
+    const response = await axiosInstance.delete('/todos', { params });
 
     return response.data.records[0];
   },
