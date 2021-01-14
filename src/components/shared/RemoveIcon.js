@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import remove from '../../assets/icons/remove.svg';
 
 const RemoveIcon = ({ callback }) => (
-  <button type="button" onClick={callback} className="ml-auto">
+  <button type="button" onClick={callback} className="ml-auto" data-testid="Remove icon">
     <img src={remove} alt="remove" className="w-4 h-4 cursor-pointer" />
   </button>
 );

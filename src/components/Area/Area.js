@@ -18,7 +18,10 @@ function makeAreaChoosen(renderedArea, chooseArea, e) {
 
 function Title({ id, title, removeArea }) {
   return (
-    <div className="area-title flex font-light items-center leading-none mb-4 text-big text-center title w-full">
+    <div
+      data-testid="Area title"
+      className="area-title flex font-light items-center leading-none mb-4 text-big text-center title w-full"
+    >
       <div className="w-full">{title}</div>
       <RemoveIcon callback={() => removeArea(id)} />
     </div>

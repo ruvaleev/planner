@@ -2,10 +2,7 @@ import { connect } from 'react-redux';
 
 import TodosCard from './TodosCard';
 import { createTodo } from '../../redux/slices/todos';
-
-function selectTodos(todos, areaId) {
-  return todos.filter((todo) => todo.fields.area_id[0] === areaId);
-}
+import { selectTodos } from '../shared/functions';
 
 const mapStateToProps = (state, ownProps) => ({
   isLoading: state.todosReducer.present.isLoading,
