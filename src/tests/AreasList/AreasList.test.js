@@ -50,7 +50,7 @@ const areasReducerWithLoading = {
 
 describe('AreasList', () => {
   const mockStore = configureStore([]);
-  let store
+  let store;
   let component;
 
   it('renders all areas', () => {
@@ -62,14 +62,14 @@ describe('AreasList', () => {
   it("doesn't render loading page", () => {
     store = mockStore(Store({ areasReducer }));
     component = renderWithStore(store);
-    expect(component.queryByAltText('loading...')).not.toBeInTheDocument()
+    expect(component.queryByAltText('loading...')).not.toBeInTheDocument();
   });
 
   describe('when component is loading', () => {
     it('renders loading page', () => {
       store = mockStore(Store({ areasReducer: areasReducerWithLoading }));
       component = renderWithStore(store);
-      expect(component.queryByAltText('loading...')).toBeInTheDocument()
+      expect(component.queryByAltText('loading...')).toBeInTheDocument();
     });
   });
 });
