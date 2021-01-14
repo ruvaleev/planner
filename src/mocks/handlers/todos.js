@@ -1,36 +1,13 @@
 import { rest } from 'msw';
 import uuid from 'uuid-random';
 
+import { defaultTodos } from '../../tests/shared/TodosReducerGenerator';
+
 export default [
   rest.get('https://api.airtable.com/v0/apppa13MHUBR0nuxP/todos', (req, res, ctx) => res(
     ctx.status(200),
     ctx.json({
-      records: [
-        {
-          id: 'todo_1',
-          fields: {
-            title: 'Заработать миллион',
-            completed: true,
-            area_id: ['area_1'],
-          },
-        },
-        {
-          id: 'todo_2',
-          fields: {
-            title: 'Заработать два миллиона',
-            completed: false,
-            area_id: ['area_1'],
-          },
-        },
-        {
-          id: 'todo_3',
-          fields: {
-            title: 'Заработать три миллиона',
-            completed: false,
-            area_id: ['area_1'],
-          },
-        },
-      ],
+      records: defaultTodos,
     }),
   )),
   rest.post('https://api.airtable.com/v0/apppa13MHUBR0nuxP/todos', (req, res, ctx) => {

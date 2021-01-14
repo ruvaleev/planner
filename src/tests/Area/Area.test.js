@@ -27,7 +27,7 @@ describe('Area', () => {
   const mockStore = configureStore([]);
   const store = mockStore(Store());
   const area = store.getState().areasReducer.areas[0];
-  const todos = selectTodos(store.getState().todosReducer.present.todos, area.id);
+  const todos = selectTodos(store.getState().todosReducer.todos, area.id);
   let component;
 
   describe('Area', () => {
@@ -49,6 +49,7 @@ describe('Area', () => {
 
       const areaDiv = component.getByTestId('Area title');
       const removeIcon = getByTestId(areaDiv, 'Remove icon');
+      userEvent.click(areaDiv);
       userEvent.click(removeIcon);
 
       expect(areasSliceActions.removeArea).toHaveBeenCalledTimes(1);

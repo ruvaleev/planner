@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import undoable from 'redux-undo';
 
 import areasReducer from '../slices/areas';
 import authenticationsReducer from '../slices/authentications';
@@ -9,6 +8,6 @@ export default combineReducers(
   {
     areasReducer,
     authenticationsReducer,
-    todosReducer: undoable(todosReducer),
+    todosReducer,
   },
 );

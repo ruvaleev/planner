@@ -1,23 +1,13 @@
 import { rest } from 'msw';
 import uuid from 'uuid-random';
 
+import { defaultAreas } from '../../tests/shared/AreasReducerGenerator';
+
 export default [
   rest.get('https://api.airtable.com/v0/apppa13MHUBR0nuxP/areas', (req, res, ctx) => res(
     ctx.status(200),
     ctx.json({
-      records: [
-        {
-          id: 'area_1',
-          fields: {
-            title: 'Обеспеченность',
-            completed_todos_count: 1,
-            todos_count: 2,
-            todos: [
-              'todo_1', 'todo_2', 'todo_3',
-            ],
-          },
-        },
-      ],
+      records: defaultAreas,
     }),
   )),
   rest.post('https://api.airtable.com/v0/apppa13MHUBR0nuxP/areas', (req, res, ctx) => {

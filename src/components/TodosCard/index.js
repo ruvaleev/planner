@@ -5,11 +5,11 @@ import { createTodo } from '../../redux/slices/todos';
 import { selectTodos } from '../shared/functions';
 
 const mapStateToProps = (state, ownProps) => ({
-  isLoading: state.todosReducer.present.isLoading,
-  isError: state.todosReducer.present.isError,
-  error: state.todosReducer.present.error,
+  isLoading: state.todosReducer.isLoading,
+  isError: state.todosReducer.isError,
+  error: state.todosReducer.error,
   todos: selectTodos(
-    state.todosReducer.present.todos, ownProps.areaId,
+    state.todosReducer.todos, ownProps.areaId,
   ),
 });
 
