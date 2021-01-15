@@ -3,3 +3,4 @@ src/assets/main.css
 Черновик.rb
 .DS_Store
 dist
+coverage/
