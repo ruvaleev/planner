@@ -1,3 +1,25 @@
+const titles = ['Обеспеченность', 'Карьера', 'Призвание', 'Семья', 'Здоровье'];
+
+function generateArea({ title, index }) {
+  return {
+    id: `area_${index}`,
+    fields: {
+      title,
+      todos: [],
+    },
+  };
+}
+
+function generateAreas(count) {
+  const result = [];
+  for (let i = 0; i < count; i += 1) {
+    result.push(
+      generateArea({ title: titles[i], index: i }),
+    );
+  }
+  return result;
+}
+
 export const defaultAreas = [{
   id: 'area_1',
   fields: {
@@ -24,10 +46,11 @@ function composeAreasForStore(areas) {
 }
 
 function AreasReducerGenerator({
-  areas = composeAreasForStore(defaultAreas), isLoading = false, isError = false, error = null,
+  areasCount = 2, areas = null, isLoading = false, isError = false, error = null,
 }) {
+  const totalAreas = areas || composeAreasForStore(generateAreas(areasCount));
   return {
-    areas, isLoading, isError, error,
+    areas: totalAreas, isLoading, isError, error,
   };
 }
 
