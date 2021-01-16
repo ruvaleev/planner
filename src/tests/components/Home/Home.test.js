@@ -8,14 +8,14 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import uuid from 'uuid-random';
 
-import Home from '../../components/Home';
-import Store from '../shared/Store';
-import * as authenticationsSliceActions from '../../redux/slices/authentications';
-import AuthenticationsReducerGenerator from '../shared/AuthenticationsReducerGenerator';
+import Home from '../../../components/Home';
+import Store from '../../shared/Store';
+import * as authenticationsSliceActions from '../../../redux/slices/authentications';
+import AuthenticationsReducerGenerator from '../../shared/AuthenticationsReducerGenerator';
 
 import {
   plannerPath, rootPath, signInPath, signUpPath,
-} from '../../helpers/routes';
+} from '../../../helpers/routes';
 
 const history = createMemoryHistory();
 

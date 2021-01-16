@@ -2,11 +2,11 @@ import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
 
-import AreasCard from '../../components/AreasCard';
+import AreasCard from '../../../components/AreasCard';
 
 Element.prototype.scroll = jest.fn();
 
-jest.mock('../../components/AreasList', () => () => (<>Areas List</>));
+jest.mock('../../../components/AreasList', () => () => (<>Areas List</>));
 
 describe('AreasCard', () => {
   let component;

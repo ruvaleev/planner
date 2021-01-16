@@ -6,10 +6,10 @@ import { getByTestId } from '@testing-library/dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
-import Area from '../../components/Area';
-import { selectTodos } from '../../components/shared/functions';
-import Store from '../shared/Store';
-import * as areasSliceActions from '../../redux/slices/areas';
+import Area from '../../../components/Area';
+import { selectTodos } from '../../../components/shared/functions';
+import Store from '../../shared/Store';
+import * as areasSliceActions from '../../../redux/slices/areas';
 
 Element.prototype.scroll = jest.fn();
 

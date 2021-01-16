@@ -5,8 +5,8 @@ import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 
-import NotFound from '../../components/NotFound';
-import { rootPath } from '../../helpers/routes';
+import NotFound from '../../../components/NotFound';
+import { rootPath } from '../../../helpers/routes';
 
 const history = createMemoryHistory();
 
