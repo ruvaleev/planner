@@ -114,6 +114,7 @@ const authenticationsSlice = createSlice({
       authToken: action.payload.auth_token,
     }),
     [verifyToken.rejected]: (state, action) => {
+      state.isAuthenticated = false;
       state.isLoading = false;
       state.isError = true;
       state.error = action.error.message;

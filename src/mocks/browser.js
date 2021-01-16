@@ -1,8 +1,10 @@
 import { setupWorker, rest } from 'msw';
-import handlers from './handlers';
 
-const worker = setupWorker(...handlers);
+function browserMock(handlers) {
+  const worker = setupWorker(...handlers);
+  window.msw = { worker, rest };
 
-window.msw = { worker, rest };
+  return worker;
+}
 
-export default worker;
+export default browserMock;
