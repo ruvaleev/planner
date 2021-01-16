@@ -44,7 +44,7 @@ describe('SignUp', () => {
       userEvent.type(passwordInput, password);
       userEvent.click(submitButton);
 
-      const expectedPayload = { email: email, password };
+      const expectedPayload = { email, password };
 
       expect(authenticationsSliceActions.signUp).toHaveBeenCalledTimes(1);
       expect(authenticationsSliceActions.signUp).toHaveBeenCalledWith(expectedPayload);

@@ -30,31 +30,29 @@ describe('Area', () => {
   const todos = selectTodos(store.getState().todosReducer.todos, area.id);
   let component;
 
-  describe('Area', () => {
-    it('renders area title', () => {
-      component = renderWithStore(store, area);
-      expect(component.queryByText(area.fields.title)).toBeInTheDocument();
-    });
+  it('renders area title', () => {
+    component = renderWithStore(store, area);
+    expect(component.queryByText(area.fields.title)).toBeInTheDocument();
+  });
 
-    it("renders titles of area's todos", () => {
-      component = renderWithStore(store, area);
-      todos.forEach((todo) => expect(component.queryByText(todo.fields.title)).toBeInTheDocument());
-    });
+  it("renders titles of area's todos", () => {
+    component = renderWithStore(store, area);
+    todos.forEach((todo) => expect(component.queryByText(todo.fields.title)).toBeInTheDocument());
+  });
 
-    it('dispatches removeArea on remove icon click', () => {
-      store.dispatch = jest.fn();
-      areasSliceActions.removeArea = jest.fn().mockImplementation((payload) => payload === area.id);
+  it('dispatches removeArea on remove icon click', () => {
+    store.dispatch = jest.fn();
+    areasSliceActions.removeArea = jest.fn().mockImplementation((payload) => payload);
 
-      component = renderWithStore(store, area);
+    component = renderWithStore(store, area);
 
-      const areaDiv = component.getByTestId('Area title');
-      const removeIcon = getByTestId(areaDiv, 'Remove icon');
-      userEvent.click(removeIcon);
+    const areaDiv = component.getByTestId('Area title');
+    const removeIcon = getByTestId(areaDiv, 'Remove icon');
+    userEvent.click(removeIcon);
 
-      expect(areasSliceActions.removeArea).toHaveBeenCalledTimes(1);
-      expect(areasSliceActions.removeArea).toHaveBeenCalledWith(area.id);
-      expect(store.dispatch).toHaveBeenCalledTimes(1);
-      expect(store.dispatch).toHaveBeenCalledWith(true);
-    });
+    expect(areasSliceActions.removeArea).toHaveBeenCalledTimes(1);
+    expect(areasSliceActions.removeArea).toHaveBeenCalledWith(area.id);
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(store.dispatch).toHaveBeenCalledWith(area.id);
   });
 });
