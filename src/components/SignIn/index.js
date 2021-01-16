@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { resetError, signIn, signUp } from '../../redux/slices/authentications';
+import { resetError, signIn } from '../../redux/slices/authentications';
 import SignIn from './SignIn';
 
 const mapStateToProps = (state) => ({
@@ -12,7 +12,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   resetError: () => dispatch(resetError()),
-  signUp: (data) => dispatch(signUp(data)),
   signIn: (data) => dispatch(signIn(data)),
 });
 
