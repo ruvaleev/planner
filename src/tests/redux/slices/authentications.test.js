@@ -1,4 +1,4 @@
-import uuid from 'uuid-random';
+import Cookies from 'universal-cookie';
 
 import mocks from 'mocks';
 
@@ -8,19 +8,24 @@ import createStore from 'redux/store';
 mocks();
 
 describe('authenticationsReducer', () => {
+  const cookies = new Cookies();
   let store;
 
   beforeEach(() => {
     store = createStore();
   });
 
-  describe('verifyToken', () => {
-    it('set isAuthenticated flag to true if auth token correct', async () => {
-      await store.dispatch(authenticationsSliceActions.verifyToken('Correct Auth Token'));
+  describe('verifyAuth', () => {
+    it('set isAuthenticated flag to true if user authorized on backend', async () => {
+      cookies.set('Authorized?', 'true');
+
+      await store.dispatch(authenticationsSliceActions.verifyAuth());
       expect(store.getState().authenticationsReducer.isAuthenticated).toEqual(true);
+
+      cookies.remove('Authorized?');
     });
-    it('set isAuthenticated flag to false if auth token is incorrect', async () => {
-      await store.dispatch(authenticationsSliceActions.verifyToken('incorrectToken'));
+    it('set isAuthenticated flag to false if user unauthorized on backend', async () => {
+      await store.dispatch(authenticationsSliceActions.verifyAuth());
       expect(store.getState().authenticationsReducer.isAuthenticated).toEqual(false);
     });
   });
@@ -30,17 +35,15 @@ describe('authenticationsReducer', () => {
     const invalidCredentialsAction = { email: 'incorrect@email.com', password: 'password' };
     const errorMessage = 'Unauthorized';
 
-    it('set isAuthenticated flag to true and updates authToken if credentials are correct', async () => {
+    it('set isAuthenticated flag to true if credentials are correct', async () => {
       await store.dispatch(authenticationsSliceActions.signIn(validCredentialsAction));
       expect(store.getState().authenticationsReducer.isAuthenticated).toEqual(true);
-      expect(store.getState().authenticationsReducer.authToken).not.toEqual(null);
       expect(store.getState().authenticationsReducer.isError).toEqual(false);
       expect(store.getState().authenticationsReducer.error).toEqual(null);
     });
     it('set isError flag to true and fills error if credentials are incorrect', async () => {
       await store.dispatch(authenticationsSliceActions.signIn(invalidCredentialsAction));
       expect(store.getState().authenticationsReducer.isAuthenticated).toEqual(false);
-      expect(store.getState().authenticationsReducer.authToken).toEqual(null);
       expect(store.getState().authenticationsReducer.isError).toEqual(true);
       expect(store.getState().authenticationsReducer.error).toEqual(errorMessage);
     });
@@ -51,47 +54,26 @@ describe('authenticationsReducer', () => {
     const invalidCredentialsAction = { email: 'correct@email.com', password: 'password' };
     const errorMessage = JSON.stringify({ email: ['has already been taken'] });
 
-    it('set isAuthenticated flag to true and updates authToken if credentials are correct', async () => {
+    it('set isAuthenticated flag to true if credentials are correct', async () => {
       await store.dispatch(authenticationsSliceActions.signUp(validCredentialsAction));
       expect(store.getState().authenticationsReducer.isAuthenticated).toEqual(true);
-      expect(store.getState().authenticationsReducer.authToken).not.toEqual(null);
       expect(store.getState().authenticationsReducer.isError).toEqual(false);
       expect(store.getState().authenticationsReducer.error).toEqual(null);
     });
     it('set isError flag to true and fills error if credentials are incorrect', async () => {
       await store.dispatch(authenticationsSliceActions.signUp(invalidCredentialsAction));
       expect(store.getState().authenticationsReducer.isAuthenticated).toEqual(false);
-      expect(store.getState().authenticationsReducer.authToken).toEqual(null);
       expect(store.getState().authenticationsReducer.isError).toEqual(true);
       expect(store.getState().authenticationsReducer.error).toEqual(errorMessage);
     });
   });
 
   describe('logOut', () => {
-    const authToken = uuid();
-
     it('set isAuthenticated flag to false and nullifies authToken', async () => {
-      await store.dispatch(authenticationsSliceActions.logOut(authToken));
+      await store.dispatch(authenticationsSliceActions.logOut());
       expect(store.getState().authenticationsReducer.isAuthenticated).toEqual(false);
-      expect(store.getState().authenticationsReducer.authToken).toEqual(null);
       expect(store.getState().authenticationsReducer.isError).toEqual(false);
       expect(store.getState().authenticationsReducer.error).toEqual(null);
-    });
-  });
-
-  describe('fetchCookie', () => {
-    const authToken = uuid();
-
-    it('set isAuthenticated flag to true and properly set authToken if authToken present', () => {
-      store.dispatch(authenticationsSliceActions.fetchCookie(authToken));
-      expect(store.getState().authenticationsReducer.isAuthenticated).toEqual(true);
-      expect(store.getState().authenticationsReducer.authToken).toEqual(authToken);
-    });
-
-    it('set isAuthenticated flag to false if authToken absent', () => {
-      store.dispatch(authenticationsSliceActions.fetchCookie(null));
-      expect(store.getState().authenticationsReducer.isAuthenticated).toEqual(false);
-      expect(store.getState().authenticationsReducer.authToken).not.toEqual(authToken);
     });
   });
 

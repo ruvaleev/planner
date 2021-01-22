@@ -8,7 +8,7 @@ import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 
 import { fetchAreas } from '../redux/slices/areas';
-import { fetchCookie } from '../redux/slices/authentications';
+import { verifyAuth } from '../redux/slices/authentications';
 import { fetchTodos } from '../redux/slices/todos';
 
 /* eslint no-sequences: 0 */
@@ -18,12 +18,8 @@ export default [
     path: rootPath(),
     exact: true,
     component: Home,
-    loadData: ({ store, cookies }) => (
-      store.dispatch(
-        fetchCookie(
-          cookies.get('UserAuthToken'),
-        ),
-      )
+    loadData: ({ store }) => (
+      store.dispatch(verifyAuth)
     ),
   },
   {

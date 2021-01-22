@@ -7,6 +7,8 @@ const axiosBackendInstance = axios.create({
   baseURL: ROOT_URL,
   timeout: 10_000,
   headers: { Authorization: `Bearer ${API_KEY}` },
+  withCredentials: true,
+
 });
 
 export default axiosBackendInstance;

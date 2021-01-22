@@ -1,6 +1,5 @@
 import 'regenerator-runtime/runtime';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import Cookies from 'universal-cookie';
 import qs from 'qs';
 
 import axiosBackendInstance from '../shared/axiosBackendInstance';
@@ -8,31 +7,22 @@ import axiosBackendInstance from '../shared/axiosBackendInstance';
 /* eslint-disable no-unused-expressions, no-param-reassign */
 
 const initialState = {
-  authToken: null, isAuthenticated: false, isLoading: false, isError: false, error: null,
+  isAuthenticated: false, isLoading: false, isError: false, error: null,
 };
 
-const cookies = new Cookies();
-
-export const verifyToken = createAsyncThunk(
-  'authentications/verifyToken',
-  async (authToken) => {
-    const response = await axiosBackendInstance.get('/auth', {
-      params: { token: authToken },
-    })
-      .then((res) => {
-        cookies.set('UserAuthToken', res.data.auth_token, { sameSite: true });
-        return res;
-      })
+export const verifyAuth = createAsyncThunk(
+  'authentications/verifyAuth',
+  async () => {
+    await axiosBackendInstance.get('/auth')
+      .then((res) => res.data)
       .catch((error) => Promise.reject(new Error(error.response.data.errors)));
-
-    return response.data;
   },
 );
 
 export const signIn = createAsyncThunk(
   'authentications/signIn',
   async (data) => {
-    const response = await axiosBackendInstance.post(
+    await axiosBackendInstance.post(
       '/auth', qs.stringify({
         user: {
           email: data.email,
@@ -40,13 +30,8 @@ export const signIn = createAsyncThunk(
         },
       }),
     )
-      .then((res) => {
-        cookies.set('UserAuthToken', res.data.auth_token, { sameSite: true });
-        return res;
-      })
+      .then((res) => res)
       .catch((error) => Promise.reject(new Error(error.response.data.errors)));
-
-    return response.data;
   },
 );
 
@@ -61,10 +46,7 @@ export const signUp = createAsyncThunk(
         },
       }),
     )
-      .then((res) => {
-        cookies.set('UserAuthToken', res.data.auth_token, { sameSite: true });
-        return res;
-      })
+      .then((res) => res)
       .catch((error) => Promise.reject(
         new Error(
           JSON.stringify(error.response.data.errors),
@@ -77,14 +59,9 @@ export const signUp = createAsyncThunk(
 
 export const logOut = createAsyncThunk(
   'authentications/logOut',
-  async (authToken) => {
-    const response = await axiosBackendInstance.delete('/auth', {
-      params: { token: authToken },
-    })
-      .then((res) => {
-        cookies.remove('UserAuthToken');
-        return res;
-      })
+  async () => {
+    const response = await axiosBackendInstance.delete('/auth')
+      .then((res) => res)
       .catch((error) => Promise.reject(new Error(error.response.data.error)));
 
     return response.data;
@@ -95,37 +72,29 @@ const authenticationsSlice = createSlice({
   name: 'authentications',
   initialState,
   reducers: {
-    fetchCookie(state, action) {
-      state.authToken = action.payload;
-      state.isAuthenticated = !!(state.authToken);
-    },
     resetError(state) {
       state.isError = false;
       state.error = null;
     },
   },
   extraReducers: {
-    [verifyToken.pending]: (state) => {
+    [verifyAuth.pending]: (state) => {
       state.isLoading = true;
     },
-    [verifyToken.fulfilled]: (state, action) => ({
+    [verifyAuth.fulfilled]: () => ({
       ...initialState,
       isAuthenticated: true,
-      authToken: action.payload.auth_token,
     }),
-    [verifyToken.rejected]: (state, action) => {
+    [verifyAuth.rejected]: (state) => {
       state.isAuthenticated = false;
       state.isLoading = false;
-      state.isError = true;
-      state.error = action.error.message;
     },
     [signIn.pending]: (state) => {
       state.isLoading = true;
     },
-    [signIn.fulfilled]: (state, action) => ({
+    [signIn.fulfilled]: () => ({
       ...initialState,
       isAuthenticated: true,
-      authToken: action.payload.auth_token,
     }),
     [signIn.rejected]: (state, action) => {
       state.isAuthenticated = false;
@@ -136,10 +105,9 @@ const authenticationsSlice = createSlice({
     [signUp.pending]: (state) => {
       state.isLoading = true;
     },
-    [signUp.fulfilled]: (state, action) => ({
+    [signUp.fulfilled]: () => ({
       ...initialState,
       isAuthenticated: true,
-      authToken: action.payload.auth_token,
     }),
     [signUp.rejected]: (state, action) => {
       state.isAuthenticated = false;
@@ -159,5 +127,5 @@ const authenticationsSlice = createSlice({
   },
 });
 
-export const { fetchCookie, resetError } = authenticationsSlice.actions;
+export const { resetError } = authenticationsSlice.actions;
 export default authenticationsSlice.reducer;

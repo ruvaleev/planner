@@ -1,6 +1,8 @@
 import { rest } from 'msw';
-import uuid from 'uuid-random';
 import qs from 'qs';
+import Cookies from 'universal-cookie';
+
+const cookies = new Cookies();
 
 const authorizedUser = { email: 'correct@email.com', password: 'password' };
 
@@ -12,7 +14,11 @@ const userExists = (email) => email === authorizedUser.email;
 
 const authorizedResponse = (res, ctx) => res(
   ctx.status(200),
-  ctx.json({ auth_token: uuid() }),
+);
+
+const authorizedResponseWithCookie = (res, ctx) => res(
+  ctx.cookie('Authorized?', 'true'),
+  ctx.status(200),
 );
 
 const unauthorizedResponse = (res, ctx) => res(
@@ -29,27 +35,27 @@ export default [
   rest.post('http://localhost:4567/auth', (req, res, ctx) => {
     const { email, password } = qs.parse(req.body).user;
 
-    const response = authorized(email, password) ? authorizedResponse : unauthorizedResponse;
+    const response = authorized(email, password)
+      ? authorizedResponseWithCookie
+      : unauthorizedResponse;
 
     return response(res, ctx);
   }),
   rest.get('http://localhost:4567/auth', (req, res, ctx) => {
-    const token = req.url.searchParams.get('token');
+    const isAuthorized = cookies.get('Authorized?') === 'true';
 
-    const incorrectToken = 'incorrectToken';
-
-    const response = token === incorrectToken ? unauthorizedResponse : authorizedResponse;
+    const response = isAuthorized ? authorizedResponse : unauthorizedResponse;
 
     return response(res, ctx);
   }),
   rest.post('http://localhost:4567/users', (req, res, ctx) => {
     const { email } = qs.parse(req.body).user;
 
-    const response = userExists(email) ? forbiddenResponse : authorizedResponse;
+    const response = userExists(email) ? forbiddenResponse : authorizedResponseWithCookie;
 
     return response(res, ctx);
   }),
-  rest.delete('http://localhost:4567/auth', (req, res, ctx) => res(
+  rest.delete('http://localhost:4567/auth', (_req, res, ctx) => res(
     ctx.status(200),
   )),
 ];

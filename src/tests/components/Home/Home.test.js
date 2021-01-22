@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import uuid from 'uuid-random';
 
 import Home from '../../../components/Home';
 import Store from '../../shared/Store';
@@ -33,12 +32,18 @@ describe('Home', () => {
   const mockStore = configureStore([]);
   let store;
   let component;
-  let authToken;
 
   describe('when user unauthenticated', () => {
     beforeEach(() => {
       store = mockStore(Store());
+      store.dispatch = jest.fn();
+      authenticationsSliceActions.verifyAuth = jest.fn();
       component = renderWithStore(store);
+    });
+
+    it('dispatches verifyAuth', () => {
+      expect(authenticationsSliceActions.verifyAuth).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
     });
 
     it('correctly renders link to planner', () => {
@@ -66,11 +71,9 @@ describe('Home', () => {
 
   describe('when user authenticated', () => {
     beforeEach(() => {
-      authToken = uuid();
       store = mockStore(Store({
         authenticationsReducer: AuthenticationsReducerGenerator({
           isAuthenticated: true,
-          authToken,
         }),
       }));
 
@@ -86,18 +89,14 @@ describe('Home', () => {
 
     it('dispatches logOut action on log out link click and user stays on root path', () => {
       history.push(rootPath());
-      authenticationsSliceActions.logOut = jest.fn().mockImplementation((payload) => (
-        payload === authToken
-      ));
+      authenticationsSliceActions.logOut = jest.fn();
 
       const logOutLink = component.getByText('Выйти');
       userEvent.click(logOutLink);
 
       expect(history.location.pathname).toBe(rootPath());
       expect(authenticationsSliceActions.logOut).toHaveBeenCalledTimes(1);
-      expect(authenticationsSliceActions.logOut).toHaveBeenCalledWith(authToken);
-      expect(store.dispatch).toHaveBeenCalledTimes(1);
-      expect(store.dispatch).toHaveBeenCalledWith(true);
+      expect(store.dispatch).toHaveBeenCalledTimes(2);
     });
 
     it("doesn't render sign in link", () => {

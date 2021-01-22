@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { fetchCookie, logOut, verifyToken } from '../../redux/slices/authentications';
+import { logOut, verifyAuth } from '../../redux/slices/authentications';
 import Home from './Home';
 
 const mapStateToProps = (state) => ({
@@ -12,9 +12,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchCookie: (data) => dispatch(fetchCookie(data)),
-  logOut: (data) => dispatch(logOut(data)),
-  verifyToken: (data) => dispatch(verifyToken(data)),
+  logOut: () => dispatch(logOut()),
+  verifyAuth: () => dispatch(verifyAuth()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
