@@ -21,7 +21,8 @@ module.exports = {
     },
     minWidth: {
       '20em': '20em',
-    },
+      '1rem': '1rem',
+    }
   },
   variants: {
     extend: {},

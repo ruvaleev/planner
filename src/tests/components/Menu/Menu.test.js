@@ -34,7 +34,7 @@ describe('Menu', () => {
   });
 
   it('renders all areas titles', () => {
-    areas.forEach((area) => expect(component.queryByText(area.fields.title)).toBeInTheDocument());
+    areas.forEach((area) => expect(component.queryByText(area.title)).toBeInTheDocument());
   });
   it('lights up which area is choosen', () => {
     const { container } = renderWithStore(store);

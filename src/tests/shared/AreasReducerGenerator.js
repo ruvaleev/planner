@@ -3,10 +3,15 @@ const titles = ['Обеспеченность', 'Карьера', 'Призва�
 function generateArea({ title, index }) {
   return {
     id: `area_${index}`,
-    fields: {
-      title,
-      todos: [],
-    },
+    title,
+    todos: [
+      {
+        id: 'todo_1',
+        title: 'Заработать миллион',
+        completed: true,
+      },
+    ],
+    created_at: new Date(),
   };
 }
 
@@ -22,17 +27,22 @@ function generateAreas(count) {
 
 export const defaultAreas = [{
   id: 'area_1',
-  fields: {
-    title: 'Обеспеченность',
-    todos: ['todo_1', 'todo_2', 'todo_3'],
-  },
+  title: 'Обеспеченность',
+  todos: [
+    {
+      id: 'todo_1',
+      title: 'Aspernatur totam excepturi dicta estplaceat tempore.',
+      completed: false,
+      created_at: new Date(),
+    },
+  ],
+  created_at: new Date(),
 },
 {
   id: 'area_2',
-  fields: {
-    title: 'Карьера',
-    todos: [],
-  },
+  title: 'Карьера',
+  todos: [],
+  created_at: new Date(),
 }];
 
 function getRandomInt(max) {

@@ -1,7 +1,6 @@
 import areas from './areas';
 import authentications from './authentications';
-import todos from './todos';
 
-const handlers = areas.concat(authentications, todos);
+const handlers = areas.concat(authentications);
 
 export default handlers;

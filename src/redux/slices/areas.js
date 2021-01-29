@@ -1,7 +1,8 @@
 import 'regenerator-runtime/runtime';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import qs from 'qs';
 
-import axiosInstance from '../shared/axiosInstance';
+import axiosBackendInstance from '../shared/axiosBackendInstance';
 
 /* eslint-disable no-unused-expressions, no-param-reassign */
 
@@ -27,50 +28,87 @@ function shiftBorderAreas(state, choosenAreaIndex) {
 export const fetchAreas = createAsyncThunk(
   'areas/fetchAll',
   async () => {
-    const response = await axiosInstance.get('/areas');
+    const response = await axiosBackendInstance.get('/areas');
 
-    const choosenArea = response.data.records[1] || response.data.records[0];
+    const choosenArea = response.data.areas[1] || response.data.areas[0];
     choosenArea.choosen = true;
 
-    return response.data.records;
+    return response.data.areas;
   },
 );
 
 export const createArea = createAsyncThunk(
   'areas/create',
   async (area) => {
-    const response = await axiosInstance.post('/areas', {
-      records: [
-        {
-          fields: {
-            title: area.title,
-          },
-        },
-      ],
-    });
+    const response = await axiosBackendInstance.post('/areas', qs.stringify({
+      area: {
+        title: area.title,
+      },
+    }));
 
-    return response.data.records[0];
+    return response.data.area;
   },
 );
 
 export const removeArea = createAsyncThunk(
   'areas/remove',
   async (areaId) => {
-    const params = { records: [areaId] };
-    const response = await axiosInstance.delete('/areas', { params });
+    const response = await axiosBackendInstance.delete(`/areas/${areaId}`)
+      .then(() => areaId)
+      .catch((error) => Promise.reject(new Error(error.response.data.errors)));
 
-    return response.data.records[0];
+    return response;
   },
 );
+
+export const createTodo = createAsyncThunk(
+  'areas/createTodo',
+  async (todo) => {
+    const response = await axiosBackendInstance.post('/todos', qs.stringify({
+      area_id: todo.areaId,
+      todo: {
+        title: todo.title,
+      },
+    }));
+
+    return { areaId: todo.areaId, todo: response.data.todo };
+  },
+);
+
+export const removeTodo = createAsyncThunk(
+  'areas/removeTodo',
+  async (todo) => {
+    const params = { area_id: todo.areaId };
+    const response = await axiosBackendInstance.delete(`/todos/${todo.id}`, { params })
+      .then(() => todo)
+      .catch((error) => Promise.reject(new Error(error.response.data.errors)));
+
+    return response;
+  },
+);
+
+let area;
 
 const areasSlice = createSlice({
   name: 'areas',
   initialState,
   reducers: {
     chooseArea(state, action) {
-      const areaIndex = state.areas.findIndex((area) => area.id === action.payload);
+      const areaIndex = state.areas.findIndex((stateArea) => stateArea.id === action.payload);
       shiftBorderAreas(state, areaIndex);
       switchChoosen(state, action.payload);
+    },
+    toggleReady(state, action) {
+      area = state.areas.find((stateArea) => stateArea.id === action.payload.areaId);
+      const todo = area.todos.find((stateTodo) => stateTodo.id === action.payload.todoId);
+      todo.completed = !todo.completed;
+
+      axiosBackendInstance.patch(`/todos/${todo.id}`, qs.stringify({
+        area_id: area.id,
+        todo: {
+          completed: todo.completed,
+        },
+      }));
     },
   },
   extraReducers: {
@@ -81,7 +119,6 @@ const areasSlice = createSlice({
     [fetchAreas.fulfilled]: (state, action) => ({
       ...initialState,
       areas: action.payload,
-      choosenAreaId: action.payload[0].id,
     }),
     [fetchAreas.rejected]: (state, action) => ({
       ...state,
@@ -110,29 +147,57 @@ const areasSlice = createSlice({
     }),
     [removeArea.fulfilled]: (state, action) => {
       state.isLoading = false;
-      if (action.payload.deleted === true) {
-        const deletedArea = state.areas.find((area) => area.id === action.payload.id);
-        const index = state.areas.indexOf(deletedArea);
-        state.areas = state.areas.filter(
-          (area) => (area.id !== action.payload.id) && (action.payload.deleted === true),
-        );
-        if (state.areas.length > 0) {
-          const newChoosenAreaIndex = index === state.areas.length ? (index - 1) : index;
-          const newChoosenArea = state.areas[newChoosenAreaIndex];
+      const deletedArea = state.areas.find((stateArea) => stateArea.id === action.payload);
+      const index = state.areas.indexOf(deletedArea);
+      state.areas = state.areas.filter(
+        (stateArea) => (stateArea.id !== action.payload),
+      );
+      if (state.areas.length > 0) {
+        const newChoosenAreaIndex = index === state.areas.length ? (index - 1) : index;
+        const newChoosenArea = state.areas[newChoosenAreaIndex];
 
-          shiftBorderAreas(state, newChoosenAreaIndex);
-          newChoosenArea && switchChoosen(state, newChoosenArea.id);
-        }
+        shiftBorderAreas(state, newChoosenAreaIndex);
+        newChoosenArea && switchChoosen(state, newChoosenArea.id);
       }
     },
     [removeArea.rejected]: (state, action) => ({
       ...state,
       isLoading: false,
       isError: true,
+      error: action.error.message,
+    }),
+    [createTodo.pending]: (state) => ({
+      ...state,
+      isLoading: true,
+    }),
+    [createTodo.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      area = state.areas.find((stateArea) => stateArea.id === action.payload.areaId);
+      area.todos = area.todos.concat(action.payload.todo);
+    },
+    [createTodo.rejected]: (state, action) => ({
+      ...state,
+      isLoading: false,
+      isError: true,
       error: action.payload.error,
+    }),
+    [removeTodo.pending]: (state) => ({
+      ...state,
+      isLoading: true,
+    }),
+    [removeTodo.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      area = state.areas.find((stateArea) => stateArea.id === action.payload.areaId);
+      area.todos = area.todos.filter((todo) => todo.id !== action.payload.id);
+    },
+    [removeTodo.rejected]: (state, action) => ({
+      ...state,
+      isLoading: false,
+      isError: true,
+      error: action.error.message,
     }),
   },
 });
 
-export const { chooseArea } = areasSlice.actions;
+export const { chooseArea, toggleReady } = areasSlice.actions;
 export default areasSlice.reducer;

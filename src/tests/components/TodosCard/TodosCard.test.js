@@ -6,14 +6,13 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 import TodosCard from '../../../components/TodosCard';
-import { selectTodos } from '../../../components/shared/functions';
 import Store from '../../shared/Store';
-import * as todosSliceActions from '../../../redux/slices/todos';
+import * as areasSliceActions from '../../../redux/slices/areas';
 
-function renderWithStore(store, areaId) {
+function renderWithStore(store, areaId, todos) {
   return render(
     <Provider store={store}>
-      <TodosCard areaId={areaId} />
+      <TodosCard areaId={areaId} todos={todos} />
     </Provider>,
   );
 }
@@ -22,17 +21,17 @@ describe('TodosCard', () => {
   const mockStore = configureStore([]);
   const store = mockStore(Store());
   const area = store.getState().areasReducer.areas.find((a) => a.choosen);
-  const todos = selectTodos(store.getState().todosReducer.todos, area.id);
+  const { todos } = area;
   let component;
 
   beforeEach(() => {
     store.dispatch = jest.fn();
-    todosSliceActions.createTodo = jest.fn().mockImplementation((payload) => payload);
-    component = renderWithStore(store, area.id);
+    areasSliceActions.createTodo = jest.fn().mockImplementation((payload) => payload);
+    component = renderWithStore(store, area.id, todos);
   });
 
   it("renders titles of area's todos", () => {
-    todos.forEach((todo) => expect(component.queryByText(todo.fields.title)).toBeInTheDocument());
+    todos.forEach((todo) => expect(component.queryByText(todo.title)).toBeInTheDocument());
   });
 
   it('dispatches createTodo action on todo form submit', () => {
@@ -43,8 +42,8 @@ describe('TodosCard', () => {
     expect(screen.getByTestId('Add todo')).toHaveValue(title);
     userEvent.type(todoInput, '{enter}');
 
-    expect(todosSliceActions.createTodo).toHaveBeenCalledTimes(1);
-    expect(todosSliceActions.createTodo).toHaveBeenCalledWith({ title, areaId: area.id });
+    expect(areasSliceActions.createTodo).toHaveBeenCalledTimes(1);
+    expect(areasSliceActions.createTodo).toHaveBeenCalledWith({ title, areaId: area.id });
     expect(store.dispatch).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledWith({ title, areaId: area.id });
   });

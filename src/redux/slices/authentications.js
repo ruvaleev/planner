@@ -38,7 +38,7 @@ export const signIn = createAsyncThunk(
 export const signUp = createAsyncThunk(
   'authentications/signUp',
   async (data) => {
-    const response = await axiosBackendInstance.post(
+    await axiosBackendInstance.post(
       '/users', qs.stringify({
         user: {
           email: data.email,
@@ -52,19 +52,15 @@ export const signUp = createAsyncThunk(
           JSON.stringify(error.response.data.errors),
         ),
       ));
-
-    return response.data;
   },
 );
 
 export const logOut = createAsyncThunk(
   'authentications/logOut',
   async () => {
-    const response = await axiosBackendInstance.delete('/auth')
+    await axiosBackendInstance.delete('/auth')
       .then((res) => res)
       .catch((error) => Promise.reject(new Error(error.response.data.error)));
-
-    return response.data;
   },
 );
 

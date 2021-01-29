@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 
 import RemoveIcon from '../shared/RemoveIcon';
 
-const TodoCheckbox = ({ id, completed, toggleReady }) => (
+const TodoCheckbox = ({
+  areaId, todoId, completed, toggleReady,
+}) => (
   <>
     <input
-      id={id}
+      id={todoId}
       type="checkbox"
       className="ml-auto cursor-pointer"
-      onChange={() => toggleReady(id)}
+      onChange={() => toggleReady({ todoId, areaId })}
       checked={!!completed}
     />
   </>
@@ -29,18 +31,26 @@ const TodoLabel = ({ id, title, toggleReady }) => (
   </>
 );
 
-const Todo = ({ todo, toggleReady, removeTodo }) => (
+const Todo = ({
+  areaId, todo, toggleReady, removeTodo,
+}) => (
   <div key={todo.id} className="flex justify-start items-center">
-    <TodoCheckbox id={todo.id} completed={!!todo.fields.completed} toggleReady={toggleReady} />
-    <TodoLabel id={todo.id} title={todo.fields.title} toggleReady={toggleReady} />
-    <RemoveIcon callback={() => removeTodo(todo.id)} />
+    <TodoCheckbox
+      todoId={todo.id}
+      areaId={areaId}
+      completed={!!todo.completed}
+      toggleReady={toggleReady}
+    />
+    <TodoLabel id={todo.id} title={todo.title} toggleReady={toggleReady} />
+    <RemoveIcon callback={() => removeTodo({ id: todo.id, areaId })} />
   </div>
 );
 
 export default Todo;
 
 TodoCheckbox.propTypes = {
-  id: PropTypes.string.isRequired,
+  areaId: PropTypes.string.isRequired,
+  todoId: PropTypes.string.isRequired,
   completed: PropTypes.bool.isRequired,
   toggleReady: PropTypes.func.isRequired,
 };
@@ -52,9 +62,10 @@ TodoLabel.propTypes = {
 };
 
 Todo.propTypes = {
+  areaId: PropTypes.string.isRequired,
   todo: PropTypes.objectOf(
     PropTypes.oneOfType(
-      [PropTypes.string, PropTypes.object],
+      [PropTypes.string, PropTypes.object, PropTypes.bool],
     ),
   ).isRequired,
   toggleReady: PropTypes.func.isRequired,

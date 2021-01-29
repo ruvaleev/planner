@@ -51,8 +51,8 @@ function Area({ area, chooseArea, removeArea }) {
 
   return (
     <div key={area.id} id={area.id} className={`mx-16 min-w-20em flex flex-col items-center relative area ${area.choosen && 'choosen-area'}`}>
-      <Title id={area.id} title={area.fields.title} removeArea={removeArea} />
-      <TodosCard areaId={area.id} />
+      <Title id={area.id} title={area.title} removeArea={removeArea} />
+      <TodosCard areaId={area.id} todos={area.todos} />
     </div>
   );
 }
@@ -62,7 +62,13 @@ export default Area;
 Area.propTypes = {
   area: PropTypes.objectOf(
     PropTypes.oneOfType(
-      [PropTypes.string, PropTypes.object, PropTypes.bool],
+      [
+        PropTypes.number,
+        PropTypes.string,
+        PropTypes.bool,
+        PropTypes.instanceOf(Date),
+        PropTypes.arrayOf(PropTypes.object),
+      ],
     ),
   ).isRequired,
   chooseArea: PropTypes.func.isRequired,
@@ -70,7 +76,7 @@ Area.propTypes = {
 };
 
 Title.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   title: PropTypes.string.isRequired,
   removeArea: PropTypes.func.isRequired,
 };

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import Todo from '../Todo';
 
-function TodosList({ todos }) {
+function TodosList({ todos, areaId }) {
   return (
     <div className="todos-list w-full">
       {
         todos.map((todo) => (
-          <Todo key={todo.id} todo={todo} />
+          <Todo key={todo.id} todo={todo} areaId={areaId} />
         ))
       }
     </div>
@@ -21,6 +21,7 @@ TodosList.propTypes = {
       [PropTypes.string, PropTypes.object],
     ),
   ).isRequired,
+  areaId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 export default TodosList;

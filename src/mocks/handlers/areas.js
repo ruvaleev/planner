@@ -1,48 +1,53 @@
 import { rest } from 'msw';
 import uuid from 'uuid-random';
+import qs from 'qs';
 
 import { defaultAreas } from '../../tests/shared/AreasReducerGenerator';
 
 export default [
-  rest.get('https://api.airtable.com/v0/apppa13MHUBR0nuxP/areas', (req, res, ctx) => res(
+  rest.get('http://localhost:4567/areas', (req, res, ctx) => res(
     ctx.status(200),
     ctx.json({
-      records: defaultAreas,
+      areas: defaultAreas,
     }),
   )),
-  rest.post('https://api.airtable.com/v0/apppa13MHUBR0nuxP/areas', (req, res, ctx) => {
-    const { title } = req.body.records[0].fields;
+  rest.post('http://localhost:4567/areas', (req, res, ctx) => {
+    const { title } = qs.parse(req.body).area;
 
     return res(
       ctx.status(200),
       ctx.json({
-        records: [
-          {
-            id: uuid(),
-            fields: {
-              title,
-              completed_todos_count: 0,
-              todos_count: 0,
-              todos: [],
-            },
-          },
-        ],
+        area: {
+          id: uuid(),
+          title,
+          created_at: new Date(),
+          todos: [],
+        },
       }),
     );
   }),
-  rest.delete('https://api.airtable.com/v0/apppa13MHUBR0nuxP/areas', (req, res, ctx) => {
-    const id = req.url.searchParams.get('records[]');
+  rest.delete('http://localhost:4567/areas/:id', (req, res, ctx) => res(
+    ctx.status(200),
+  )),
+  rest.post('http://localhost:4567/todos', (req, res, ctx) => {
+    const { todo } = qs.parse(req.body);
 
     return res(
       ctx.status(200),
       ctx.json({
-        records: [
-          {
-            deleted: true,
-            id,
-          },
-        ],
+        todo: {
+          id: uuid(),
+          title: todo.title,
+          completed: false,
+          created_at: new Date(),
+        },
       }),
     );
   }),
+  rest.patch('http://localhost:4567/todos/:id', (req, res, ctx) => res(
+    ctx.status(200),
+  )),
+  rest.delete('http://localhost:4567/todos/:id', (req, res, ctx) => res(
+    ctx.status(200),
+  )),
 ];

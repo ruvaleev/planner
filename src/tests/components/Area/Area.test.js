@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
 import Area from '../../../components/Area';
-import { selectTodos } from '../../../components/shared/functions';
 import Store from '../../shared/Store';
 import * as areasSliceActions from '../../../redux/slices/areas';
 
@@ -27,17 +26,17 @@ describe('Area', () => {
   const mockStore = configureStore([]);
   const store = mockStore(Store());
   const area = store.getState().areasReducer.areas.find((a) => a.choosen);
-  const todos = selectTodos(store.getState().todosReducer.todos, area.id);
+  const { todos } = area;
   let component;
 
   it('renders area title', () => {
     component = renderWithStore(store, area);
-    expect(component.queryByText(area.fields.title)).toBeInTheDocument();
+    expect(component.queryByText(area.title)).toBeInTheDocument();
   });
 
   it("renders titles of area's todos", () => {
     component = renderWithStore(store, area);
-    todos.forEach((todo) => expect(component.queryByText(todo.fields.title)).toBeInTheDocument());
+    todos.forEach((todo) => expect(component.queryByText(todo.title)).toBeInTheDocument());
   });
 
   it('dispatches removeArea on remove icon click', () => {

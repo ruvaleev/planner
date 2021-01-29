@@ -30,7 +30,7 @@ describe('AreasList', () => {
     component = renderWithStore(store);
     const { areas } = store.getState().areasReducer;
     areas.forEach((area) => expect(
-      component.queryByText(area.fields.title),
+      component.queryByText(area.title),
     ).toBeInTheDocument());
   });
 

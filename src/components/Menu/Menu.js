@@ -9,7 +9,7 @@ function AreaLink({ area, chooseArea }) {
       data-link-id={area.id}
       onClick={() => chooseArea(area.id)}
     >
-      {area.fields.title}
+      {area.title}
     </button>
   );
 }

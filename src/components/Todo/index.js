@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import Todo from './Todo';
-import { toggleReady, removeTodo } from '../../redux/slices/todos';
+import { removeTodo, toggleReady } from '../../redux/slices/areas';
 
 const mapDispatchToProps = (dispatch) => ({
   toggleReady: (data) => dispatch(toggleReady(data)),

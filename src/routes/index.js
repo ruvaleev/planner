@@ -9,7 +9,6 @@ import SignUp from '../components/SignUp';
 
 import { fetchAreas } from '../redux/slices/areas';
 import { verifyAuth } from '../redux/slices/authentications';
-import { fetchTodos } from '../redux/slices/todos';
 
 /* eslint no-sequences: 0 */
 export default [
@@ -28,8 +27,7 @@ export default [
     exact: true,
     component: Planner,
     loadData: ({ store }) => (
-      store.dispatch(fetchAreas()),
-      store.dispatch(fetchTodos())
+      store.dispatch(fetchAreas())
     ),
   },
   {
