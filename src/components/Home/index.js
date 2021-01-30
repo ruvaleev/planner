@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { logOut, verifyAuth } from '../../redux/slices/authentications';
+import { logInDemo, logOut, verifyAuth } from '../../redux/slices/authentications';
 import Home from './Home';
 
 const mapStateToProps = (state) => ({
@@ -12,6 +12,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  logInDemo: () => dispatch(logInDemo()),
   logOut: () => dispatch(logOut()),
   verifyAuth: () => dispatch(verifyAuth()),
 });

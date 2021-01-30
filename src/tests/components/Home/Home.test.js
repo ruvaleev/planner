@@ -41,15 +41,27 @@ describe('Home', () => {
       component = renderWithStore(store);
     });
 
+    it("doesn't render message about demo mode", () => {
+      expect(component.queryByText('Вы находитесь в Демо Режиме')).not.toBeInTheDocument();
+    });
+
     it('dispatches verifyAuth', () => {
       expect(authenticationsSliceActions.verifyAuth).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenCalledTimes(1);
     });
 
-    it('correctly renders link to planner', () => {
-      const plannerLink = component.getByText('Планировщик');
-      userEvent.click(plannerLink);
-      expect(history.location.pathname).toBe(plannerPath());
+    it('dispatches logInDemo action on log in demo link click', () => {
+      authenticationsSliceActions.logInDemo = jest.fn();
+
+      const logInDemoLink = component.getByText('Демо режим');
+      userEvent.click(logInDemoLink);
+
+      expect(authenticationsSliceActions.logInDemo).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledTimes(2);
+    });
+
+    it("doesn't render link to planner", () => {
+      expect(component.queryByText('Планировщик')).not.toBeInTheDocument();
     });
 
     it('correctly renders link to sign in page', () => {
@@ -69,6 +81,24 @@ describe('Home', () => {
     });
   });
 
+  describe('when user in Demo mode', () => {
+    beforeEach(() => {
+      store = mockStore(Store({
+        authenticationsReducer: AuthenticationsReducerGenerator({
+          isAuthenticated: true,
+          isDemo: true,
+        }),
+      }));
+
+      store.dispatch = jest.fn();
+      component = renderWithStore(store);
+    });
+
+    it('renders message about demo mode', () => {
+      expect(component.queryByText('Вы находитесь в Демо Режиме')).toBeInTheDocument();
+    });
+  });
+
   describe('when user authenticated', () => {
     beforeEach(() => {
       store = mockStore(Store({
@@ -79,6 +109,10 @@ describe('Home', () => {
 
       store.dispatch = jest.fn();
       component = renderWithStore(store);
+    });
+
+    it("doesn't render message about demo mode", () => {
+      expect(component.queryByText('Вы находитесь в Демо Режиме')).not.toBeInTheDocument();
     });
 
     it('correctly renders link to planner', () => {

@@ -42,6 +42,18 @@
   filter: none;
 }
 
+.empty-areas {
+  padding: 0 30%;
+}
+
+.home-link {
+  position: fixed;
+  bottom: 10vh;
+  right: 75%;
+  display: flex;
+  justify-content: center;
+}
+
 input[type='checkbox'] {
   display: none;
 }
@@ -78,7 +90,8 @@ input[type='checkbox']:checked + label {
 }
 
 .menu-links-list {
-  max-height: 85%;
+  /* height of side menu (80vh) - height of form - margin-top form - links - margin-top links; */
+  max-height: calc(80vh - 1.5rem - 1rem - 2rem - 1rem);
   overflow-y: auto;
 }
 
@@ -102,8 +115,8 @@ input[type='checkbox']:checked + label {
 }
 
 .todos-list {
-  /* height of side menu links list (80vh * 85%) - height of title - title bottom margin */
-  max-height: calc(80vh * 0.85 - 3rem - 1rem);
+  /* height of side menu (80vh) - height of title - title bottom margin - height of form - margin-top form */
+  max-height: calc(80vh - 3rem - 1rem - 1.5rem - 1rem);
   position: relative;
   overflow-y: auto;
 }

@@ -7,7 +7,7 @@ import axiosBackendInstance from '../shared/axiosBackendInstance';
 /* eslint-disable no-unused-expressions, no-param-reassign */
 
 const initialState = {
-  isAuthenticated: false, isLoading: false, isError: false, error: null,
+  isAuthenticated: false, isDemo: false, isLoading: false, isError: false, error: null,
 };
 
 export const verifyAuth = createAsyncThunk(
@@ -55,6 +55,15 @@ export const signUp = createAsyncThunk(
   },
 );
 
+export const logInDemo = createAsyncThunk(
+  'authentications/logInDemo',
+  async () => {
+    await axiosBackendInstance.post('/auth/demo')
+      .then((res) => res)
+      .catch((error) => Promise.reject(new Error(error.response.data.errors)));
+  },
+);
+
 export const logOut = createAsyncThunk(
   'authentications/logOut',
   async () => {
@@ -77,10 +86,10 @@ const authenticationsSlice = createSlice({
     [verifyAuth.pending]: (state) => {
       state.isLoading = true;
     },
-    [verifyAuth.fulfilled]: () => ({
-      ...initialState,
-      isAuthenticated: true,
-    }),
+    [verifyAuth.fulfilled]: (state) => {
+      state.isLoading = false;
+      state.isAuthenticated = true;
+    },
     [verifyAuth.rejected]: (state) => {
       state.isAuthenticated = false;
       state.isLoading = false;
@@ -109,6 +118,18 @@ const authenticationsSlice = createSlice({
       state.isAuthenticated = false;
       state.isError = true;
       state.isLoading = false;
+      state.error = action.error.message;
+    },
+    [logInDemo.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [logInDemo.fulfilled]: (state) => {
+      state.isAuthenticated = true;
+      state.isDemo = true;
+      state.isLoading = false;
+    },
+    [logInDemo.rejected]: (state, action) => {
+      state.isError = true;
       state.error = action.error.message;
     },
     [logOut.pending]: (state) => {
