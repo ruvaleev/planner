@@ -68,10 +68,22 @@ describe('authenticationsReducer', () => {
     });
   });
 
+  describe('logInDemo', () => {
+    it('set isAuthenticated flag to true if credentials are correct', async () => {
+      await store.dispatch(authenticationsSliceActions.logInDemo());
+      expect(store.getState().authenticationsReducer.isAuthenticated).toEqual(true);
+      expect(store.getState().authenticationsReducer.isDemo).toEqual(true);
+      expect(store.getState().authenticationsReducer.isError).toEqual(false);
+      expect(store.getState().authenticationsReducer.isLoading).toEqual(false);
+      expect(store.getState().authenticationsReducer.error).toEqual(null);
+    });
+  });
+
   describe('logOut', () => {
     it('set isAuthenticated flag to false and nullifies authToken', async () => {
       await store.dispatch(authenticationsSliceActions.logOut());
       expect(store.getState().authenticationsReducer.isAuthenticated).toEqual(false);
+      expect(store.getState().authenticationsReducer.isDemo).toEqual(false);
       expect(store.getState().authenticationsReducer.isError).toEqual(false);
       expect(store.getState().authenticationsReducer.error).toEqual(null);
     });

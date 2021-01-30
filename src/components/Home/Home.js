@@ -4,35 +4,39 @@ import { useHistory } from 'react-router-dom';
 
 import { plannerPath, signInPath, signUpPath } from 'helpers/routes';
 import withLoading from '../HOC/withLoading';
+import DemoModeMessage from '../shared/DemoModeMessage';
 
-function AuthenticationMenu({ isAuthenticated, logOut }) {
+function AuthenticationMenu({ isAuthenticated, logInDemo, logOut }) {
   const history = useHistory();
   return (
     isAuthenticated
-      ? <button type="button" onClick={() => logOut()} className="title cursor-pointer">Выйти</button>
+      ? (
+        <>
+          <button type="button" onClick={() => logOut()} className="title cursor-pointer">Выйти</button>
+          <button type="button" onClick={() => history.push(plannerPath())} className="title cursor-pointer">Планировщик</button>
+        </>
+      )
       : (
         <>
           <button type="button" onClick={() => history.push(signInPath())} className="title cursor-pointer">Войти</button>
           <button type="button" onClick={() => history.push(signUpPath())} className="title cursor-pointer">Зарегистрироваться</button>
+          <button type="button" onClick={() => logInDemo()} className="title cursor-pointer">Демо режим</button>
         </>
       )
   );
 }
 
 function Home({
-  isAuthenticated, logOut, verifyAuth,
+  isAuthenticated, logInDemo, logOut, verifyAuth,
 }) {
-  const history = useHistory();
-
   useEffect(() => {
     verifyAuth();
   }, []);
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">
-      <h1>Home Page</h1>
-      <button type="button" onClick={() => history.push(plannerPath())} className="title cursor-pointer">Планировщик</button>
-      <AuthenticationMenu isAuthenticated={isAuthenticated} logOut={logOut} />
+      <AuthenticationMenu isAuthenticated={isAuthenticated} logInDemo={logInDemo} logOut={logOut} />
+      <DemoModeMessage />
     </div>
   );
 }
@@ -41,11 +45,13 @@ export default withLoading(Home);
 
 AuthenticationMenu.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
+  logInDemo: PropTypes.func.isRequired,
   logOut: PropTypes.func.isRequired,
 };
 
 Home.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
+  logInDemo: PropTypes.func.isRequired,
   logOut: PropTypes.func.isRequired,
   verifyAuth: PropTypes.func.isRequired,
 };

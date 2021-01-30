@@ -41,6 +41,7 @@ export default [
 
     return response(res, ctx);
   }),
+  rest.post('http://localhost:4567/auth/demo', (req, res, ctx) => authorizedResponseWithCookie(res, ctx)),
   rest.get('http://localhost:4567/auth', (req, res, ctx) => {
     const isAuthorized = cookies.get('Authorized?') === 'true';
 

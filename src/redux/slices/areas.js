@@ -31,7 +31,7 @@ export const fetchAreas = createAsyncThunk(
     const response = await axiosBackendInstance.get('/areas');
 
     const choosenArea = response.data.areas[1] || response.data.areas[0];
-    choosenArea.choosen = true;
+    choosenArea && (choosenArea.choosen = true);
 
     return response.data.areas;
   },
@@ -116,10 +116,10 @@ const areasSlice = createSlice({
       ...state,
       isLoading: true,
     }),
-    [fetchAreas.fulfilled]: (state, action) => ({
-      ...initialState,
-      areas: action.payload,
-    }),
+    [fetchAreas.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.areas = action.payload;
+    },
     [fetchAreas.rejected]: (state, action) => ({
       ...state,
       isLoading: false,

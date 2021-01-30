@@ -4,16 +4,23 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
 
 import Menu from '../../../components/Menu';
 import Store from '../../shared/Store';
 import * as areasSliceActions from '../../../redux/slices/areas';
 import AreasReducerGenerator from '../../shared/AreasReducerGenerator';
+import { rootPath } from '../../../helpers/routes';
+
+const history = createMemoryHistory();
 
 function renderWithStore(store) {
   return render(
     <Provider store={store}>
-      <Menu />
+      <Router history={history}>
+        <Menu />
+      </Router>
     </Provider>,
   );
 }
@@ -73,5 +80,10 @@ describe('Menu', () => {
     expect(areasSliceActions.createArea).toHaveBeenCalledWith({ title });
     expect(store.dispatch).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledWith({ title });
+  });
+  it('correctly renders link to home page', () => {
+    const homeLink = component.getByAltText('home');
+    userEvent.click(homeLink);
+    expect(history.location.pathname).toBe(rootPath());
   });
 });
