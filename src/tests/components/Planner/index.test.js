@@ -3,6 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import i18n from 'i18next';
 
 import Planner from '../../../components/Planner';
 import Store from '../../shared/Store';
@@ -37,7 +38,7 @@ describe('Planner', () => {
     });
 
     it('renders message about demo mode', () => {
-      expect(component.queryByText('Вы находитесь в Демо Режиме')).toBeInTheDocument();
+      expect(component.queryByText(i18n.t('demo mode message'))).toBeInTheDocument();
     });
   });
 
@@ -55,7 +56,7 @@ describe('Planner', () => {
     });
 
     it("doesn't render message about demo mode", () => {
-      expect(component.queryByText('Вы находитесь в Демо Режиме')).not.toBeInTheDocument();
+      expect(component.queryByText(i18n.t('demo mode message'))).not.toBeInTheDocument();
     });
   });
 });

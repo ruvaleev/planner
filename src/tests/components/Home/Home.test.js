@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
+import i18n from 'i18next';
 
 import Home from '../../../components/Home';
 import Store from '../../shared/Store';
@@ -42,7 +43,7 @@ describe('Home', () => {
     });
 
     it("doesn't render message about demo mode", () => {
-      expect(component.queryByText('Вы находитесь в Демо Режиме')).not.toBeInTheDocument();
+      expect(component.queryByText(i18n.t('demo mode message'))).not.toBeInTheDocument();
     });
 
     it('dispatches verifyAuth', () => {
@@ -53,7 +54,7 @@ describe('Home', () => {
     it('dispatches logInDemo action on log in demo link click', () => {
       authenticationsSliceActions.logInDemo = jest.fn();
 
-      const logInDemoLink = component.getByText('Демо режим');
+      const logInDemoLink = component.getByText(i18n.t('demo mode'));
       userEvent.click(logInDemoLink);
 
       expect(authenticationsSliceActions.logInDemo).toHaveBeenCalledTimes(1);
@@ -61,23 +62,34 @@ describe('Home', () => {
     });
 
     it("doesn't render link to planner", () => {
-      expect(component.queryByText('Планировщик')).not.toBeInTheDocument();
+      expect(component.queryByText(i18n.t('planner'))).not.toBeInTheDocument();
     });
 
     it('correctly renders link to sign in page', () => {
-      const signInLink = component.getByText('Войти');
+      const signInLink = component.getByText(i18n.t('sign in'));
       userEvent.click(signInLink);
       expect(history.location.pathname).toBe(signInPath());
     });
 
     it('correctly renders link to sign up page', () => {
-      const signUpLink = component.getByText('Зарегистрироваться');
+      const signUpLink = component.getByText(i18n.t('sign up'));
       userEvent.click(signUpLink);
       expect(history.location.pathname).toBe(signUpPath());
     });
 
     it("doesn't render log out link", () => {
-      expect(component.queryByText('Выйти')).not.toBeInTheDocument();
+      expect(component.queryByText(i18n.t('log out'))).not.toBeInTheDocument();
+    });
+
+    it('renders change language link', () => {
+      const initialLanguage = i18n.language;
+      const changeLanguageLink = component.getByText(i18n.t('change language'));
+
+      userEvent.click(changeLanguageLink);
+      expect(i18n.language).not.toEqual(initialLanguage);
+
+      userEvent.click(changeLanguageLink);
+      expect(i18n.language).toEqual(initialLanguage);
     });
   });
 
@@ -95,7 +107,18 @@ describe('Home', () => {
     });
 
     it('renders message about demo mode', () => {
-      expect(component.queryByText('Вы находитесь в Демо Режиме')).toBeInTheDocument();
+      expect(component.queryByText(i18n.t('demo mode message'))).toBeInTheDocument();
+    });
+
+    it('renders change language link', () => {
+      const initialLanguage = i18n.language;
+      const changeLanguageLink = component.getByText(i18n.t('change language'));
+
+      userEvent.click(changeLanguageLink);
+      expect(i18n.language).not.toEqual(initialLanguage);
+
+      userEvent.click(changeLanguageLink);
+      expect(i18n.language).toEqual(initialLanguage);
     });
   });
 
@@ -112,11 +135,11 @@ describe('Home', () => {
     });
 
     it("doesn't render message about demo mode", () => {
-      expect(component.queryByText('Вы находитесь в Демо Режиме')).not.toBeInTheDocument();
+      expect(component.queryByText(i18n.t('demo mode message'))).not.toBeInTheDocument();
     });
 
     it('correctly renders link to planner', () => {
-      const plannerLink = component.getByText('Планировщик');
+      const plannerLink = component.getByText(i18n.t('planner'));
       userEvent.click(plannerLink);
       expect(history.location.pathname).toBe(plannerPath());
     });
@@ -125,7 +148,7 @@ describe('Home', () => {
       history.push(rootPath());
       authenticationsSliceActions.logOut = jest.fn();
 
-      const logOutLink = component.getByText('Выйти');
+      const logOutLink = component.getByText(i18n.t('log out'));
       userEvent.click(logOutLink);
 
       expect(history.location.pathname).toBe(rootPath());
@@ -134,11 +157,22 @@ describe('Home', () => {
     });
 
     it("doesn't render sign in link", () => {
-      expect(component.queryByText('Войти')).not.toBeInTheDocument();
+      expect(component.queryByText(i18n.t('sign in'))).not.toBeInTheDocument();
     });
 
     it("doesn't render sign up link", () => {
-      expect(component.queryByText('Зарегистрироваться')).not.toBeInTheDocument();
+      expect(component.queryByText(i18n.t('sign up'))).not.toBeInTheDocument();
+    });
+
+    it('renders change language link', () => {
+      const initialLanguage = i18n.language;
+      const changeLanguageLink = component.getByText(i18n.t('change language'));
+
+      userEvent.click(changeLanguageLink);
+      expect(i18n.language).not.toEqual(initialLanguage);
+
+      userEvent.click(changeLanguageLink);
+      expect(i18n.language).toEqual(initialLanguage);
     });
   });
 });

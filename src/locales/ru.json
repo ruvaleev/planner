@@ -1,0 +1,16 @@
+{
+  "ru": {
+    "translation": {
+      "change language": "English",
+      "create area placeholder": "Создать цель или сферу жизни...",
+      "create todo placeholder": "Создать задачу...",
+      "demo mode": "Демо Режим",
+      "demo mode message": "Вы находитесь в Демо Режиме",
+      "log out": "Выйти",
+      "no areas": "Создайте сферы жизни или цели, в которых вы будете создавать и выполнять задачи...",
+      "planner": "Планировщик",
+      "sign in": "Войти",
+      "sign up": "Зарегистрироваться"
+    }
+  }
+}

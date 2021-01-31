@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
+import i18n from 'i18next';
 
 import Menu from '../../../components/Menu';
 import Store from '../../shared/Store';
@@ -85,5 +86,16 @@ describe('Menu', () => {
     const homeLink = component.getByAltText('home');
     userEvent.click(homeLink);
     expect(history.location.pathname).toBe(rootPath());
+  });
+
+  it('correctly renders change language link', () => {
+    const initialLanguage = i18n.language;
+    const changeLanguageLink = component.getByAltText('change language');
+
+    userEvent.click(changeLanguageLink);
+    expect(i18n.language).not.toEqual(initialLanguage);
+
+    userEvent.click(changeLanguageLink);
+    expect(i18n.language).toEqual(initialLanguage);
   });
 });

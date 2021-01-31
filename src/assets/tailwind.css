@@ -42,16 +42,14 @@
   filter: none;
 }
 
-.empty-areas {
-  padding: 0 30%;
-}
-
-.home-link {
+.control-panel {
   position: fixed;
   bottom: 10vh;
   right: 75%;
-  display: flex;
-  justify-content: center;
+}
+
+.empty-areas {
+  padding: 0 30%;
 }
 
 input[type='checkbox'] {

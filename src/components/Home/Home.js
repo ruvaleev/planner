@@ -1,26 +1,31 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { plannerPath, signInPath, signUpPath } from 'helpers/routes';
 import withLoading from '../HOC/withLoading';
 import DemoModeMessage from '../shared/DemoModeMessage';
+import ToggleLocaleButton from '../shared/ToggleLocaleButton';
+import Button from '../shared/Button';
 
 function AuthenticationMenu({ isAuthenticated, logInDemo, logOut }) {
   const history = useHistory();
+  const { t } = useTranslation();
+
   return (
     isAuthenticated
       ? (
         <>
-          <button type="button" onClick={() => logOut()} className="title cursor-pointer">Выйти</button>
-          <button type="button" onClick={() => history.push(plannerPath())} className="title cursor-pointer">Планировщик</button>
+          <Button callback={() => logOut()} title={t('log out')} />
+          <Button callback={() => history.push(plannerPath())} title={t('planner')} />
         </>
       )
       : (
         <>
-          <button type="button" onClick={() => history.push(signInPath())} className="title cursor-pointer">Войти</button>
-          <button type="button" onClick={() => history.push(signUpPath())} className="title cursor-pointer">Зарегистрироваться</button>
-          <button type="button" onClick={() => logInDemo()} className="title cursor-pointer">Демо режим</button>
+          <Button callback={() => history.push(signInPath())} title={t('sign in')} />
+          <Button callback={() => history.push(signUpPath())} title={t('sign up')} />
+          <Button callback={() => logInDemo()} title={t('demo mode')} />
         </>
       )
   );
@@ -36,6 +41,7 @@ function Home({
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <AuthenticationMenu isAuthenticated={isAuthenticated} logInDemo={logInDemo} logOut={logOut} />
+      <ToggleLocaleButton />
       <DemoModeMessage />
     </div>
   );
