@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-import ControlPanel from './ControlPanel';
+import LayoutWithControlPanel from '../shared/LayoutWithControlPanel';
 
 function LinksList({ areas, chooseArea }) {
   return (
@@ -49,16 +49,17 @@ function AreaForm({ onSubmit }) {
 
 function Menu({ areas, createArea, chooseArea }) {
   return (
-    <div
-      id="menu-container"
-      className="fixed flex items-center text-2xl font-helvetica title text-right menu-container z-10"
-    >
-      <div className="flex items-end flex-col menu">
-        <LinksList areas={areas} chooseArea={chooseArea} />
-        <AreaForm onSubmit={(data) => { createArea({ title: data }); }} />
+    <LayoutWithControlPanel className="control-panel-planner">
+      <div
+        id="menu-container"
+        className="fixed flex items-center text-2xl font-helvetica title text-right menu-container z-10"
+      >
+        <div className="flex items-end flex-col menu">
+          <LinksList areas={areas} chooseArea={chooseArea} />
+          <AreaForm onSubmit={(data) => { createArea({ title: data }); }} />
+        </div>
       </div>
-      <ControlPanel />
-    </div>
+    </LayoutWithControlPanel>
   );
 }
 

@@ -39,7 +39,7 @@ function Home({
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
+    <div className="flex flex-col justify-center items-center h-screen home-menu">
       <AuthenticationMenu isAuthenticated={isAuthenticated} logInDemo={logInDemo} logOut={logOut} />
       <ToggleLocaleButton />
       <DemoModeMessage />

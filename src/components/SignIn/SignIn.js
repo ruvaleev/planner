@@ -4,10 +4,11 @@ import { useHistory } from 'react-router-dom';
 
 import withLoading from '../HOC/withLoading';
 import Errors from '../shared/Errors';
+import LayoutWithControlPanel from '../shared/LayoutWithControlPanel';
 
 function AuthenticationForm({ onSubmit }) {
   return (
-    <>
+    <LayoutWithControlPanel>
       <h1>Authentication Form:</h1>
       <form
         className="flex flex-col items-center mt-2"
@@ -28,7 +29,7 @@ function AuthenticationForm({ onSubmit }) {
           Submit
         </button>
       </form>
-    </>
+    </LayoutWithControlPanel>
   );
 }
 

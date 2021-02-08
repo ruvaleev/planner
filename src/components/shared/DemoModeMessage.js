@@ -8,7 +8,7 @@ function DemoModeMessage({ isDemo }) {
 
   return isDemo
     && (
-    <div className="fixed bottom-0 text-red-300 font-black text-2xl w-full flex justify-center">
+    <div className="fixed bottom-0 text-red-100 font-black text-2xl w-full flex justify-center text-center">
       {t('demo mode message')}
     </div>
     );

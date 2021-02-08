@@ -28,13 +28,23 @@ function Title({ id, title, removeArea }) {
   );
 }
 
+function isMobileVersion() {
+  return window.screen.width <= 499;
+}
+
+function calculateAreaScreenWidth() {
+  return isMobileVersion()
+    ? window.screen.width
+    // assuming that width of side menu is 25%
+    : window.screen.width * 0.75;
+}
+
 function Area({ area, chooseArea, removeArea }) {
   useEffect(() => {
     if (area.choosen) {
       const areasCard = document.getElementById('areas-list');
       const renderedArea = document.getElementById(area.id);
-      // assuming that width of side menu is 25%
-      const areaScreenWidth = window.screen.width * 0.75;
+      const areaScreenWidth = calculateAreaScreenWidth();
       const areaWidth = renderedArea.offsetWidth;
       const sideWidth = (areaScreenWidth - areaWidth) / 2;
       const scrollLeftEdge = renderedArea.offsetLeft - sideWidth;

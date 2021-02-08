@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import i18n from 'i18next';
 import { useHistory } from 'react-router-dom';
 
 import { rootPath } from 'helpers/routes';
-import { chooseNewLocale } from '../shared/functions';
+import { chooseNewLocale } from './functions';
 import home from '../../assets/icons/home.svg';
 import en from '../../assets/icons/en-lang.svg';
 import ru from '../../assets/icons/ru-lang.svg';
@@ -36,13 +37,43 @@ function HomeLink() {
   );
 }
 
-function ControlPanel() {
+function ControlPanel({ className }) {
   return (
-    <div className="control-panel mt-4 flex justify-end">
+    <div className={`control-panel mt-4 flex ${className}`}>
       <LanguagePanel />
       <HomeLink />
     </div>
   );
 }
 
-export default ControlPanel;
+const LayoutWithControlPanel = ({ children, className }) => (
+  <>
+    {children}
+    <ControlPanel className={className} />
+  </>
+);
+
+export default LayoutWithControlPanel;
+
+ControlPanel.propTypes = {
+  className: PropTypes.string,
+};
+
+ControlPanel.defaultProps = {
+  className: null,
+};
+
+LayoutWithControlPanel.propTypes = {
+  children: PropTypes.oneOfType(
+    [
+      PropTypes.object,
+      PropTypes.arrayOf(PropTypes.object),
+    ],
+  ),
+  className: PropTypes.string,
+};
+
+LayoutWithControlPanel.defaultProps = {
+  children: null,
+  className: null,
+};
