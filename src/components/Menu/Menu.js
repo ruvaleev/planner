@@ -1,18 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import { rootPath } from 'helpers/routes';
-import home from '../../assets/icons/home.svg';
-
-function HomeLink() {
-  const history = useHistory();
-  return (
-    <button type="button" onClick={() => history.push(rootPath())} className="home-link cursor-pointer mx-2 mt-4">
-      <img src={home} alt="home" className="w-8" />
-    </button>
-  );
-}
+import LayoutWithControlPanel from '../shared/LayoutWithControlPanel';
 
 function LinksList({ areas, chooseArea }) {
   return (
@@ -42,6 +32,7 @@ function AreaLink({ area, chooseArea }) {
 }
 
 function AreaForm({ onSubmit }) {
+  const { t } = useTranslation();
   return (
     <form
       className="flex items-center mt-4 area-form"
@@ -51,23 +42,24 @@ function AreaForm({ onSubmit }) {
         e.target.elements.areaTitle.value = '';
       }}
     >
-      <input type="text" name="areaTitle" placeholder="Создать цель или сферу жизни..." className="h-6 pr-2 w-full text-right text-base text-black italic" data-testid="Add area" />
+      <input type="text" name="areaTitle" placeholder={t('create area placeholder')} className="h-6 pr-2 w-full text-right text-base text-black italic" data-testid="Add area" />
     </form>
   );
 }
 
 function Menu({ areas, createArea, chooseArea }) {
   return (
-    <div
-      id="menu-container"
-      className="fixed flex items-center text-2xl font-helvetica title text-right menu-container z-10"
-    >
-      <HomeLink />
-      <div className="flex items-end flex-col menu">
-        <LinksList areas={areas} chooseArea={chooseArea} />
-        <AreaForm onSubmit={(data) => { createArea({ title: data }); }} />
+    <LayoutWithControlPanel className="control-panel-planner">
+      <div
+        id="menu-container"
+        className="fixed flex items-center text-2xl font-helvetica title text-right menu-container z-10"
+      >
+        <div className="flex items-end flex-col menu">
+          <LinksList areas={areas} chooseArea={chooseArea} />
+          <AreaForm onSubmit={(data) => { createArea({ title: data }); }} />
+        </div>
       </div>
-    </div>
+    </LayoutWithControlPanel>
   );
 }
 

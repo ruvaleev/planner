@@ -1,0 +1,16 @@
+{
+  "en": {
+    "translation": {
+      "change language": "Русский Язык",
+      "create area placeholder": "Create Life Area or Purpose...",
+      "create todo placeholder": "Create todo...",
+      "demo mode": "Demo Mode",
+      "demo mode message": "You are in Demo Mode now",
+      "log out": "Log Out",
+      "no areas": "Create areas of life or goals in which you gonna create and complete todos...",
+      "planner": "Planner",
+      "sign in": "Sign In",
+      "sign up": "Sign Up"
+    }
+  }
+}

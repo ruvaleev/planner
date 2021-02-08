@@ -5,9 +5,9 @@ import {
   matchPath, Router, Route, Switch,
 } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import Cookies from 'universal-cookie';
 
 import routes from 'routes';
+import Locales from 'locales';
 import createStore from './redux/store';
 
 /* eslint no-underscore-dangle: 0 */
@@ -16,14 +16,13 @@ delete window.__PRELOADED_STATE__;
 
 const store = createStore(preloadedState);
 const history = createBrowserHistory();
-const cookies = new Cookies();
 
 const onLoad = () => {
   const promises = [];
 
   routes.some((route) => {
     const match = matchPath(history.location.pathname, route);
-    if (match && route.loadData) promises.push(route.loadData({ match, store, cookies }));
+    if (match && route.loadData) promises.push(route.loadData({ match, store }));
     return match;
   });
 
@@ -33,6 +32,8 @@ const onLoad = () => {
 history.listen(() => {
   onLoad();
 });
+
+Locales();
 
 /* eslint react/jsx-props-no-spreading: 0 */
 class App extends React.Component {

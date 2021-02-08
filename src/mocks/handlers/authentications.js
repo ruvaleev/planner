@@ -57,6 +57,7 @@ export default [
     return response(res, ctx);
   }),
   rest.delete('http://localhost:4567/auth', (_req, res, ctx) => res(
+    ctx.cookie('Authorized?', 'false'),
     ctx.status(200),
   )),
 ];

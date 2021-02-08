@@ -24,7 +24,7 @@ const TodoLabel = ({ id, title, toggleReady }) => (
       htmlFor={id}
       onKeyUp={(e) => (e.keyCode === 13 || e.keyCode === 32) && toggleReady(id)}
       tabIndex="0"
-      className="mx-4 text-2xl cursor-pointer todo"
+      className="mr-4 text-2xl cursor-pointer todo"
     >
       {title}
     </label>
