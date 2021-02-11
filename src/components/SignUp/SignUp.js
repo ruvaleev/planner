@@ -44,8 +44,8 @@ function SignUp({
   }, [isAuthenticated]);
   return (
     <div className="flex flex-col justify-center items-center h-screen">
-      <Errors isError={isError} error={error} callback={() => resetError()} />
       <RegistrationForm onSubmit={signUp} />
+      <Errors isError={isError} error={error} callback={() => resetError()} />
     </div>
   );
 }
@@ -57,11 +57,11 @@ RegistrationForm.propTypes = {
 };
 
 SignUp.propTypes = {
-  resetError: PropTypes.func.isRequired,
-  signUp: PropTypes.func.isRequired,
   error: PropTypes.string,
   isError: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  resetError: PropTypes.func.isRequired,
+  signUp: PropTypes.func.isRequired,
 };
 
 SignUp.defaultProps = {

@@ -1,7 +1,6 @@
 import 'regenerator-runtime/runtime';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import qs from 'qs';
-import i18n from 'i18next';
 
 import axiosBackendInstance from '../shared/axiosBackendInstance';
 
@@ -106,7 +105,7 @@ const authenticationsSlice = createSlice({
       state.isAuthenticated = false;
       state.isError = true;
       state.isLoading = false;
-      state.error = i18n.t(action.error.message);
+      state.error = action.error.message;
     },
     [signUp.pending]: (state) => {
       state.isLoading = true;
@@ -119,7 +118,7 @@ const authenticationsSlice = createSlice({
       state.isAuthenticated = false;
       state.isError = true;
       state.isLoading = false;
-      state.error = i18n.t(action.error.message);
+      state.error = action.error.message;
     },
     [logInDemo.pending]: (state) => {
       state.isLoading = true;
@@ -131,7 +130,7 @@ const authenticationsSlice = createSlice({
     },
     [logInDemo.rejected]: (state, action) => {
       state.isError = true;
-      state.error = i18n.t(action.error.message);
+      state.error = action.error.message;
       state.isLoading = false;
     },
     [logOut.pending]: (state) => {
@@ -141,7 +140,7 @@ const authenticationsSlice = createSlice({
     [logOut.rejected]: (state, action) => {
       state.isAuthenticated = true;
       state.isError = true;
-      state.error = i18n.t(action.error.message);
+      state.error = action.error.message;
     },
   },
 });

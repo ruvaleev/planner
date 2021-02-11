@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import AreasList from './AreasList';
+import { resetError } from '../../redux/slices/areas';
 
 const mapStateToProps = (state) => ({
   isLoading: state.areasReducer.isLoading,
@@ -8,4 +9,8 @@ const mapStateToProps = (state) => ({
   areas: state.areasReducer.areas,
 });
 
-export default connect(mapStateToProps)(AreasList);
+const mapDispatchToProps = (dispatch) => ({
+  resetError: () => dispatch(resetError()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AreasList);

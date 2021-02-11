@@ -7,9 +7,11 @@ function Errors({ isError, error, callback }) {
   return (
     isError
       && (
-      <button type="button" className="fixed p-4 z-20 bordered modal" onClick={callback}>
-        {castErrorMessage(error)}
-      </button>
+      <div className="absolute flex justify-center items-center w-full h-full">
+        <button type="button" className="fixed p-4 z-20 bordered modal" onClick={callback}>
+          {castErrorMessage(error)}
+        </button>
+      </div>
       )
   );
 }

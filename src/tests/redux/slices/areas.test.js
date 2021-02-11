@@ -113,6 +113,22 @@ describe('areasReducer', () => {
     });
   });
 
+  describe('resetError', () => {
+    const errorMessage = 'some error message';
+    beforeEach(() => {
+      store = createStore({ areasReducer: { isError: true, error: errorMessage } });
+    });
+    it('set isAuthenticated flag to false and nullifies authToken', async () => {
+      expect(store.getState().areasReducer.isError).toEqual(true);
+      expect(store.getState().areasReducer.error).toEqual(errorMessage);
+
+      store.dispatch(areasSliceActions.resetError());
+
+      expect(store.getState().areasReducer.isError).toEqual(false);
+      expect(store.getState().areasReducer.error).toEqual(null);
+    });
+  });
+
   describe('toggleReady', () => {
     let area;
     let completedFlag;
