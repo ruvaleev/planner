@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { castErrorMessage } from './functions';
+
 function Errors({ isError, error, callback }) {
   return (
     isError
       && (
       <button type="button" className="fixed p-4 z-20 bordered modal" onClick={callback}>
-        {error}
+        {castErrorMessage(error)}
       </button>
       )
   );

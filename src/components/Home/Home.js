@@ -4,10 +4,11 @@ import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { plannerPath, signInPath, signUpPath } from 'helpers/routes';
-import withLoading from '../HOC/withLoading';
-import DemoModeMessage from '../shared/DemoModeMessage';
-import ToggleLocaleButton from '../shared/ToggleLocaleButton';
 import Button from '../shared/Button';
+import DemoModeMessage from '../shared/DemoModeMessage';
+import Errors from '../shared/Errors';
+import ToggleLocaleButton from '../shared/ToggleLocaleButton';
+import withLoading from '../HOC/withLoading';
 
 function AuthenticationMenu({ isAuthenticated, logInDemo, logOut }) {
   const history = useHistory();
@@ -32,7 +33,7 @@ function AuthenticationMenu({ isAuthenticated, logInDemo, logOut }) {
 }
 
 function Home({
-  isAuthenticated, logInDemo, logOut, verifyAuth,
+  error, isAuthenticated, isError, logInDemo, logOut, resetError, verifyAuth,
 }) {
   useEffect(() => {
     verifyAuth();
@@ -43,6 +44,7 @@ function Home({
       <AuthenticationMenu isAuthenticated={isAuthenticated} logInDemo={logInDemo} logOut={logOut} />
       <ToggleLocaleButton />
       <DemoModeMessage />
+      <Errors isError={isError} error={error} callback={() => resetError()} />
     </div>
   );
 }
@@ -56,8 +58,15 @@ AuthenticationMenu.propTypes = {
 };
 
 Home.propTypes = {
+  error: PropTypes.string,
   isAuthenticated: PropTypes.bool.isRequired,
+  isError: PropTypes.bool.isRequired,
   logInDemo: PropTypes.func.isRequired,
   logOut: PropTypes.func.isRequired,
+  resetError: PropTypes.func.isRequired,
   verifyAuth: PropTypes.func.isRequired,
+};
+
+Home.defaultProps = {
+  error: null,
 };

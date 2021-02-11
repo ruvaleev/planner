@@ -10,7 +10,10 @@
       "no areas": "Create areas of life or goals in which you gonna create and complete todos...",
       "planner": "Planner",
       "sign in": "Sign In",
-      "sign up": "Sign Up"
+      "sign up": "Sign Up",
+      "error": {
+        "response is undefined": "Server is unavailable now, try again later..."
+      }
     }
   }
 }
