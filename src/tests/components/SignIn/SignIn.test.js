@@ -4,6 +4,7 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import i18n from 'i18next';
 
 import SignIn from '../../../components/SignIn';
 import Store from '../../shared/Store';
@@ -36,9 +37,9 @@ describe('SignIn', () => {
     it('dispatches signIn action on signIn form submit', () => {
       authenticationsSliceActions.signIn = jest.fn().mockImplementation((payload) => payload);
 
-      const emailInput = component.getByPlaceholderText('Email...');
-      const passwordInput = component.getByPlaceholderText('Password...');
-      const submitButton = component.getByText('Submit');
+      const emailInput = component.getByPlaceholderText(i18n.t('email'));
+      const passwordInput = component.getByPlaceholderText(i18n.t('password'));
+      const submitButton = component.getByText(i18n.t('submit'));
 
       userEvent.type(emailInput, correctEmail);
       userEvent.type(passwordInput, password);
