@@ -7,9 +7,12 @@ import {
 } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 
+import Locales from 'locales';
 import routes from 'routes';
 import renderFullPage from './renderFullPage';
 import createStore from '../../src/redux/store';
+
+Locales();
 
 function loadData(store, path, cookies) {
   const promises = [];

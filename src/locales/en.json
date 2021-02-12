@@ -14,6 +14,9 @@
       "sign in": "Sign In",
       "sign up": "Sign Up",
       "submit": "Submit",
+      "e": {
+        "response is undefined": "Server is unavailable now, try again later..."
+      },
       "error": {
         "response is undefined": "Server is unavailable now, try again later..."
       }
