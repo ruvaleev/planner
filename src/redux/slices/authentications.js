@@ -131,6 +131,7 @@ const authenticationsSlice = createSlice({
     [logInDemo.rejected]: (state, action) => {
       state.isError = true;
       state.error = action.error.message;
+      state.isLoading = false;
     },
     [logOut.pending]: (state) => {
       state.isLoading = true;

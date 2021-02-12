@@ -28,7 +28,9 @@ function shiftBorderAreas(state, choosenAreaIndex) {
 export const fetchAreas = createAsyncThunk(
   'areas/fetchAll',
   async () => {
-    const response = await axiosBackendInstance.get('/areas');
+    const response = await axiosBackendInstance.get('/areas')
+      .then((res) => res)
+      .catch((error) => Promise.reject(new Error(error.response.data.errors)));
 
     const choosenArea = response.data.areas[1] || response.data.areas[0];
     choosenArea && (choosenArea.choosen = true);
@@ -44,7 +46,13 @@ export const createArea = createAsyncThunk(
       area: {
         title: area.title,
       },
-    }));
+    }))
+      .then((res) => res)
+      .catch((error) => Promise.reject(
+        new Error(
+          JSON.stringify(error.response.data.errors),
+        ),
+      ));
 
     return response.data.area;
   },
@@ -69,7 +77,13 @@ export const createTodo = createAsyncThunk(
       todo: {
         title: todo.title,
       },
-    }));
+    }))
+      .then((res) => res)
+      .catch((error) => Promise.reject(
+        new Error(
+          JSON.stringify(error.response.data.errors),
+        ),
+      ));
 
     return { areaId: todo.areaId, todo: response.data.todo };
   },
@@ -98,6 +112,10 @@ const areasSlice = createSlice({
       shiftBorderAreas(state, areaIndex);
       switchChoosen(state, action.payload);
     },
+    resetError(state) {
+      state.isError = false;
+      state.error = null;
+    },
     toggleReady(state, action) {
       area = state.areas.find((stateArea) => stateArea.id === action.payload.areaId);
       const todo = area.todos.find((stateTodo) => stateTodo.id === action.payload.todoId);
@@ -124,7 +142,7 @@ const areasSlice = createSlice({
       ...state,
       isLoading: false,
       isError: true,
-      error: action.payload.error,
+      error: action.error.message,
     }),
     [createArea.pending]: (state) => ({
       ...state,
@@ -139,7 +157,7 @@ const areasSlice = createSlice({
       ...state,
       isLoading: false,
       isError: true,
-      error: action.payload.error,
+      error: action.error.message,
     }),
     [removeArea.pending]: (state) => ({
       ...state,
@@ -179,7 +197,7 @@ const areasSlice = createSlice({
       ...state,
       isLoading: false,
       isError: true,
-      error: action.payload.error,
+      error: action.error.message,
     }),
     [removeTodo.pending]: (state) => ({
       ...state,
@@ -199,5 +217,5 @@ const areasSlice = createSlice({
   },
 });
 
-export const { chooseArea, toggleReady } = areasSlice.actions;
+export const { chooseArea, resetError, toggleReady } = areasSlice.actions;
 export default areasSlice.reducer;

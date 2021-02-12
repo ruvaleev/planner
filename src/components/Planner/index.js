@@ -1,17 +1,9 @@
-import React from 'react';
+import { connect } from 'react-redux';
 
-import AreasCard from '../AreasCard';
-import Menu from '../Menu';
-import DemoModeMessage from '../shared/DemoModeMessage';
+import Planner from './Planner';
 
-function Planner() {
-  return (
-    <>
-      <Menu />
-      <AreasCard />
-      <DemoModeMessage />
-    </>
-  );
-}
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.authenticationsReducer.isAuthenticated,
+});
 
-export default Planner;
+export default connect(mapStateToProps)(Planner);

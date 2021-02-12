@@ -6,11 +6,20 @@
       "create todo placeholder": "Create todo...",
       "demo mode": "Demo Mode",
       "demo mode message": "You are in Demo Mode now",
+      "email": "Email...",
       "log out": "Log Out",
       "no areas": "Create areas of life or goals in which you gonna create and complete todos...",
+      "password": "Password...",
       "planner": "Planner",
       "sign in": "Sign In",
-      "sign up": "Sign Up"
+      "sign up": "Sign Up",
+      "submit": "Submit",
+      "e": {
+        "response is undefined": "Server is unavailable now, try again later..."
+      },
+      "error": {
+        "response is undefined": "Server is unavailable now, try again later..."
+      }
     }
   }
 }

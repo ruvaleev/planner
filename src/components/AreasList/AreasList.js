@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import Area from '../Area';
+import Errors from '../shared/Errors';
 import withLoading from '../HOC/withLoading';
 
 function List({ areas }) {
@@ -24,10 +25,13 @@ function EmptyAreas() {
   );
 }
 
-function AreasList({ areas }) {
+function AreasList({
+  areas, error, isError, resetError,
+}) {
   return (
     <div id="areas-list" className="flex items-start justify-start overflow-x-scroll font-helvetica">
       {areas.length > 0 ? <List areas={areas} /> : <EmptyAreas />}
+      <Errors isError={isError} error={error} callback={() => resetError()} />
     </div>
   );
 }
@@ -38,10 +42,14 @@ AreasList.propTypes = {
   areas: PropTypes.arrayOf(
     PropTypes.PropTypes.object,
   ),
+  error: PropTypes.string,
+  isError: PropTypes.bool.isRequired,
+  resetError: PropTypes.func.isRequired,
 };
 
 AreasList.defaultProps = {
   areas: [],
+  error: null,
 };
 
 List.propTypes = {
