@@ -1,5 +1,14 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
+const webpack = require('webpack');
+const dotenv = require('dotenv');
+
+const env = dotenv.config().parsed || {};
+
+const envVars = Object.keys(env).reduce((result, next) => {
+  result[`process.env.${next}`] = JSON.stringify(env[next]); // eslint-disable-line no-param-reassign
+  return result;
+}, {});
 
 module.exports = {
   devtool: 'eval',
@@ -29,4 +38,7 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new webpack.DefinePlugin(envVars),
+  ],
 };

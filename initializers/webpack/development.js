@@ -2,6 +2,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const webpack = require('webpack');
+const dotenv = require('dotenv');
+
+const env = dotenv.config().parsed || {};
+
+const envVars = Object.keys(env).reduce((result, key) => {
+  result[`process.env.${key}`] = JSON.stringify(env[key]); // eslint-disable-line no-param-reassign
+  return result;
+}, {});
+
 module.exports = {
   mode: 'development',
   entry: {
@@ -41,5 +51,6 @@ module.exports = {
       base: '/',
     }),
     new MiniCssExtractPlugin(),
+    new webpack.DefinePlugin(envVars),
   ],
 };

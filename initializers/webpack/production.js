@@ -5,6 +5,16 @@ const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const path = require('path');
 
+const webpack = require('webpack');
+const dotenv = require('dotenv');
+
+const env = dotenv.config().parsed || {};
+
+const envVars = Object.keys(env).reduce((result, next) => {
+  result[`process.env.${next}`] = JSON.stringify(env[next]); // eslint-disable-line no-param-reassign
+  return result;
+}, {});
+
 module.exports = {
   mode: 'production',
   entry: {
@@ -43,5 +53,6 @@ module.exports = {
       filename: '[name].[chunkhash].css',
     }),
     new WebpackManifestPlugin(),
+    new webpack.DefinePlugin(envVars),
   ],
 };
