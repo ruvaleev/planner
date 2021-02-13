@@ -35,6 +35,10 @@
     "webpack-manifest-plugin": "^3.0.0",
     "webpack-node-externals": "^2.5.2"
   },
+  "engines": {
+    "npm": "6.14.9",
+    "node": "14.5.0"
+  },
   "scripts": {
     "test": "jest",
     "build:css": "tailwind build src/assets/tailwind.css -o src/assets/main.css",
