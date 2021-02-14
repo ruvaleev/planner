@@ -10,8 +10,8 @@ const dotenv = require('dotenv');
 
 const env = dotenv.config().parsed || {};
 
-const envVars = Object.keys(env).reduce((result, next) => {
-  result[`process.env.${next}`] = JSON.stringify(env[next]); // eslint-disable-line no-param-reassign
+const envVars = Object.keys(env).reduce((result, key) => {
+  result[`process.env.${key}`] = JSON.stringify(process.env[key] || env[key]); // eslint-disable-line no-param-reassign
   return result;
 }, {});
 

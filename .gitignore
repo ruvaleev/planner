@@ -2,6 +2,5 @@ node_modules
 src/assets/main.css
 Черновик.rb
 .DS_Store
-.env
 dist
 coverage/

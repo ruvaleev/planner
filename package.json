@@ -46,7 +46,8 @@
     "build:client": " rimraf ./dist/assets/* && webpack --config ./initializers/webpack/production.js",
     "build:server": "NODE_ENV=production npm run build:css && webpack --config ./initializers/webpack/server.js",
     "start:server": "NODE_ENV=production node --enable-source-maps ./dist/server/server",
-    "start": "NODE_ENV=production npm run build:css; npm run build:client; npm run build:server; npm run start:server"
+    "build": "NODE_ENV=production npm run build:css && npm run build:client && npm run build:server",
+    "start": "npm run start:server"
   },
   "jest": {
     "verbose": true,
