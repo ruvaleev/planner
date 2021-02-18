@@ -9,6 +9,7 @@ import { createBrowserHistory } from 'history';
 import routes from 'routes';
 import Locales from 'locales';
 import createStore from './redux/store';
+import rollbarScript from './components/shared/rollbarScript';
 
 /* eslint no-underscore-dangle: 0 */
 const preloadedState = window.__PRELOADED_STATE__;
@@ -38,7 +39,13 @@ Locales();
 /* eslint react/jsx-props-no-spreading: 0 */
 class App extends React.Component {
   componentDidMount() {
-    if (process.env.NODE_ENV !== 'production') onLoad();
+    if (process.env.NODE_ENV !== 'production') {
+      onLoad();
+
+      const rollbarScriptTag = document.createElement('script');
+      rollbarScriptTag.innerHTML = rollbarScript;
+      document.head.appendChild(rollbarScriptTag);
+    }
   }
 
   render() {

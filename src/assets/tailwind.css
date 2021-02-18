@@ -135,7 +135,7 @@ input[type='checkbox']:checked + label {
   }
 }
 
-@media (max-width: 499px) {
+@media (max-width: 699px) {
   .area {
     min-width: 100%;
     width: 100%;
