@@ -103,6 +103,10 @@ input[type='checkbox']:checked + label {
   overflow-y: auto;
 }
 
+.menu-links-list button {
+  text-align: right;
+}
+
 .modal {
   background: #ffffffc7;
 }
@@ -135,7 +139,7 @@ input[type='checkbox']:checked + label {
   }
 }
 
-@media (max-width: 699px) {
+@media (max-width: 499px) {
   .area {
     min-width: 100%;
     width: 100%;
@@ -189,9 +193,9 @@ input[type='checkbox']:checked + label {
     top: 0;
     margin: 1rem 0;
     max-height: 2rem;
+    max-width: 100%;
     height: 2rem;
     overflow-x: scroll;
-    max-width: 100%;
   }
 
   .menu-links-list::after {
@@ -206,6 +210,14 @@ input[type='checkbox']:checked + label {
 
   .menu-links-list button {
     margin: unset;
+    min-width: 100%;
+    overflow-x: scroll;
+    text-align: center;
+    width: 100%;
+  }
+
+  .title {
+    font-size: 2em;
   }
 
   .todos-list {

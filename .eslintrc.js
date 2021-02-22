@@ -20,8 +20,9 @@ module.exports = {
     'jest',
   ],
   rules: {
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    'no-unused-expressions': ['error', { allowShortCircuit: true }],
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
   },
   settings: {
     'import/resolver': {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import TodosCard from '../TodosCard';
 import RemoveIcon from '../shared/RemoveIcon';
 
-function scrollTo(element, scrollLeftEdge) {
+function scrollToEdge(element, scrollLeftEdge) {
   element.scroll({ left: scrollLeftEdge, behavior: 'smooth' });
 }
 
@@ -22,7 +22,7 @@ function Title({ id, title, removeArea }) {
       data-testid="Area title"
       className="area-title flex font-light items-center leading-none mb-4 text-big text-center title w-full"
     >
-      <div className="w-full">{title}</div>
+      <div className="ml-4 w-full">{title}</div>
       <RemoveIcon callback={() => removeArea(id)} />
     </div>
   );
@@ -32,11 +32,20 @@ function isMobileVersion() {
   return window.screen.width <= 499;
 }
 
-function calculateAreaScreenWidth() {
+function calculateScreenWidth() {
   return isMobileVersion()
     ? window.screen.width
     // assuming that width of side menu is 25%
     : window.screen.width * 0.75;
+}
+
+function scrollTo(parentElement, targetElement) {
+  const screenWidth = calculateScreenWidth();
+  const elementWidth = targetElement.offsetWidth;
+  const elementSideWidth = (screenWidth - elementWidth) / 2;
+  const elementScrollLeftEdge = targetElement.offsetLeft - elementSideWidth;
+
+  return scrollToEdge(parentElement, elementScrollLeftEdge);
 }
 
 function Area({ area, chooseArea, removeArea }) {
@@ -44,12 +53,15 @@ function Area({ area, chooseArea, removeArea }) {
     if (area.choosen) {
       const areasCard = document.getElementById('areas-list');
       const renderedArea = document.getElementById(area.id);
-      const areaScreenWidth = calculateAreaScreenWidth();
-      const areaWidth = renderedArea.offsetWidth;
-      const sideWidth = (areaScreenWidth - areaWidth) / 2;
-      const scrollLeftEdge = renderedArea.offsetLeft - sideWidth;
 
-      scrollTo(areasCard, scrollLeftEdge);
+      scrollTo(areasCard, renderedArea);
+
+      if (isMobileVersion()) {
+        const linksList = document.getElementById('links-list');
+        const link = document.querySelector(`[data-link-id='${area.id}']`);
+
+        link && scrollTo(linksList, link);
+      }
     }
   }, [area.choosen]);
 
