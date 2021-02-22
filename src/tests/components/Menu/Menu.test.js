@@ -31,8 +31,8 @@ describe('Menu', () => {
   let store;
   let component;
   let areas;
-  const regularLinkClass = 'button[class="px-8 mt-3 leading-none text-right font-light"]';
-  const choosedLinkClass = 'button[class="px-8 mt-3 leading-none text-right font-normal"]';
+  const regularLinkClass = 'button[class="px-8 mt-3 leading-none font-light"]';
+  const choosedLinkClass = 'button[class="px-8 mt-3 leading-none font-normal"]';
 
   beforeEach(() => {
     store = mockStore(Store({ areasReducer: AreasReducerGenerator({ areasCount: 3 }) }));

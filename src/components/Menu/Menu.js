@@ -6,7 +6,7 @@ import LayoutWithControlPanel from '../shared/LayoutWithControlPanel';
 
 function LinksList({ areas, chooseArea }) {
   return (
-    <div className="flex items-end flex-col menu-links-list">
+    <div className="flex items-end flex-col menu-links-list" id="links-list">
       {areas.map((area) => (
         <AreaLink
           key={area.id}
@@ -22,7 +22,7 @@ function AreaLink({ area, chooseArea }) {
   return (
     <button
       type="button"
-      className={`px-8 mt-3 leading-none text-right ${area.choosen ? 'font-normal' : 'font-light'}`}
+      className={`px-8 mt-3 leading-none ${area.choosen ? 'font-normal' : 'font-light'}`}
       data-link-id={area.id}
       onClick={() => chooseArea(area.id)}
     >
