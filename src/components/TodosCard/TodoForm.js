@@ -8,7 +8,7 @@ function TodoForm({ onSubmit }) {
   const { t } = useTranslation();
   return (
     <form
-      className="flex items-center mt-4 bordered w-full"
+      className="flex items-center mt-4 bordered w-full z-10"
       onSubmit={(e) => {
         e.preventDefault();
         onSubmit(e.target.elements.todoTitle.value);

@@ -5,6 +5,7 @@ import {
   matchPath, Router, Route, Switch,
 } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
+import Cookies from 'universal-cookie';
 
 import routes from 'routes';
 import Locales from 'locales';
@@ -20,10 +21,11 @@ const history = createBrowserHistory();
 
 const onLoad = () => {
   const promises = [];
+  const cookies = new Cookies();
 
   routes.some((route) => {
     const match = matchPath(history.location.pathname, route);
-    if (match && route.loadData) promises.push(route.loadData({ match, store }));
+    if (match && route.loadData) promises.push(route.loadData({ match, store, cookies }));
     return match;
   });
 

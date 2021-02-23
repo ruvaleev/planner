@@ -8,7 +8,7 @@ import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 
 import { fetchAreas } from '../redux/slices/areas';
-import { verifyAuth } from '../redux/slices/authentications';
+import { enableDemoMode } from '../redux/slices/authentications';
 
 /* eslint no-sequences: 0 */
 export default [
@@ -17,8 +17,8 @@ export default [
     path: rootPath(),
     exact: true,
     component: Home,
-    loadData: ({ store }) => (
-      store.dispatch(verifyAuth)
+    loadData: ({ store, cookies }) => (
+      cookies.get('DemoMode?') && store.dispatch(enableDemoMode())
     ),
   },
   {
