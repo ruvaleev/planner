@@ -2,8 +2,10 @@ import 'regenerator-runtime/runtime';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import qs from 'qs';
 
+import Cookies from 'universal-cookie';
 import axiosBackendInstance from '../shared/axiosBackendInstance';
 
+const cookies = new Cookies();
 /* eslint-disable no-unused-expressions, no-param-reassign */
 
 const initialState = {
@@ -59,7 +61,10 @@ export const logInDemo = createAsyncThunk(
   'authentications/logInDemo',
   async () => {
     await axiosBackendInstance.post('/auth/demo')
-      .then((res) => res)
+      .then((res) => {
+        cookies.set('DemoMode?', true);
+        res;
+      })
       .catch((error) => Promise.reject(new Error(error.response.data.errors)));
   },
 );
@@ -68,7 +73,10 @@ export const logOut = createAsyncThunk(
   'authentications/logOut',
   async () => {
     await axiosBackendInstance.delete('/auth')
-      .then((res) => res)
+      .then((res) => {
+        cookies.remove('DemoMode?');
+        res;
+      })
       .catch((error) => Promise.reject(new Error(error.response.data.error)));
   },
 );
@@ -77,6 +85,9 @@ const authenticationsSlice = createSlice({
   name: 'authentications',
   initialState,
   reducers: {
+    enableDemoMode(state) {
+      state.isDemo = true;
+    },
     resetError(state) {
       state.isError = false;
       state.error = null;
@@ -136,7 +147,10 @@ const authenticationsSlice = createSlice({
     [logOut.pending]: (state) => {
       state.isLoading = true;
     },
-    [logOut.fulfilled]: () => initialState,
+    [logOut.fulfilled]: () => ({
+      ...initialState,
+      isDemo: false,
+    }),
     [logOut.rejected]: (state, action) => {
       state.isAuthenticated = true;
       state.isError = true;
@@ -145,5 +159,5 @@ const authenticationsSlice = createSlice({
   },
 });
 
-export const { resetError } = authenticationsSlice.actions;
+export const { enableDemoMode, resetError } = authenticationsSlice.actions;
 export default authenticationsSlice.reducer;

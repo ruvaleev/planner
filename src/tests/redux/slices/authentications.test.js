@@ -69,23 +69,29 @@ describe('authenticationsReducer', () => {
   });
 
   describe('logInDemo', () => {
-    it('set isAuthenticated flag to true if credentials are correct', async () => {
+    it('set isAuthenticated flag to true and rights DemoMode? cookie if credentials are correct', async () => {
+      cookies.remove('DemoMode?');
+
       await store.dispatch(authenticationsSliceActions.logInDemo());
       expect(store.getState().authenticationsReducer.isAuthenticated).toEqual(true);
       expect(store.getState().authenticationsReducer.isDemo).toEqual(true);
       expect(store.getState().authenticationsReducer.isError).toEqual(false);
       expect(store.getState().authenticationsReducer.isLoading).toEqual(false);
       expect(store.getState().authenticationsReducer.error).toEqual(null);
+      expect(cookies.get('DemoMode?')).toEqual('true');
     });
   });
 
   describe('logOut', () => {
-    it('set isAuthenticated flag to false and nullifies authToken', async () => {
+    it('set isAuthenticated flag to false, nullifies authToken and clears DemoMode? cookie', async () => {
+      cookies.set('DemoMode?', true);
+
       await store.dispatch(authenticationsSliceActions.logOut());
       expect(store.getState().authenticationsReducer.isAuthenticated).toEqual(false);
       expect(store.getState().authenticationsReducer.isDemo).toEqual(false);
       expect(store.getState().authenticationsReducer.isError).toEqual(false);
       expect(store.getState().authenticationsReducer.error).toEqual(null);
+      expect(cookies.get('DemoMode?')).toEqual(undefined);
     });
   });
 
